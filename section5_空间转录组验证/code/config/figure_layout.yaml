@@ -1,0 +1,78 @@
+# 主图版式配置 —— 一行一张 panel（占满版面宽 6.30 in）
+#
+# 为什么一行一张：
+#   矢量图缩小时字号等比缩小。字号锚定 7 pt 时，一张 9 in 画布、10 pt 字号的
+#   panel 必须显示在 6.30 in 宽处，字号才正好 7 pt，且**比例与原始设计完全一致**。
+#   若强行两图并排（各 3.12 in），字号会掉到 3.5 pt —— 正是审稿人抱怨的问题；
+#   若按 3.12 in 重出图（缩画布保字号），panel 会被过度放大、标题裁切。
+#   因此采用「一行一张 + 超页高自动分页」策略：字号清晰、比例零失真。
+#
+# panel 顺序依据 docs/panel_mapping_final.md 的映射结果，严格 a→z。
+
+
+Fig1:
+  rows:
+    - [results/figures/10_00_all_panels_GSE182434/umap_celltypes2.svg]
+    - [results/figures/01_01_qc_integration/marker_dotplot.svg]
+    - [results/figures/10_00_all_panels_GSE182434/chromosome_heatmap.svg]
+    - [results/figures/02_02_liana_visualization/circle_plot_malignant_vs_normal_v2.svg]
+    - [results/figures/02_02_liana_visualization/interaction_heatmap.svg]
+    - [results/figures/02_02_liana_visualization/volcano_malignant_vs_normal_monomac.svg]
+
+Fig2:
+  rows:
+    - [results/figures/01_02_myeloid_subtypes/fig2a_mac_subtype_umap.svg]
+    - [results/figures/01_02_myeloid_subtypes/fig2b_mac_subtype_dotplot.svg]
+    - [results/figures/02_02_liana_visualization/circle_plot_13subtypes.svg]
+    - [results/figures/02_02_liana_visualization/circle_MalignantB_sender.svg]
+    - [results/figures/02_02_liana_visualization/circle_IFNTAM_sender.svg]
+    - [results/figures/02_02_liana_visualization/circle_LATAM_sender.svg]
+    - [results/figures/02_02_liana_visualization/circle_LATAM_receiver.svg]
+    - [results/figures/03_trajectory_PAGA/monomac_paga_trajectory.svg]
+    - [results/figures/03_trajectory_PAGA/monomac_trajectory_directed.svg]
+    - [results/figures/03_trajectory_PAGA/monomac_gene_dynamics.svg]
+    - [results/figures/03_trajectory_PAGA/enrichment_barplot_IFN_TAM_vs_LA_TAM.svg]
+
+Fig3:
+  rows:
+    - [results/figures/04_01_pyscenic_regulons/receptor_pseudotime_heatmap_path.svg]
+    - [results/figures/04_01_pyscenic_regulons/receptor_pseudotime_lineplots_path.svg]
+    - [results/figures/04_01_pyscenic_regulons/Fig1_regulon_activity_heatmap_paper.svg]
+    - [results/figures/04_01_pyscenic_regulons/Fig2_RSS_scatter_paper.svg]
+    - [results/figures/04_01_pyscenic_regulons/sankey_7layer_TF_targets_v3_paper.svg]
+    - [results/figures/04_01_pyscenic_regulons/lineplot_LA_TAM_TF_receptor_2x4_paper.svg]
+    - [results/figures/04_01_pyscenic_regulons/MAFB_gseapy_enrichment_dotplot_paper.svg]
+
+Fig4:
+  rows:
+    - [results/figures/05_90_reproduce_figures_local/fig09_mafb_expression_umap.svg]
+    - [results/figures/05_90_reproduce_figures_local/fig10_fate_score_violin_wt_vs_ko.svg]
+    - [results/figures/05_90_reproduce_figures_local/fig01_mafb_quiver_vector_field.svg]
+    - [results/figures/05_90_reproduce_figures_local/fig08_mafb_regulatory_network_FINAL_LOGIC_FIXED.svg]
+    - [results/figures/05_90_reproduce_figures_local/fig_horizontal_heatmap_all_deg.svg]
+    - [results/figures/05_90_reproduce_figures_local/fig16_program_score_paired_violin.svg]
+    - [results/figures/05_90_reproduce_figures_local/fig_merged_ora_bubble_all_cells.svg]
+    - [results/figures/05_90_reproduce_figures_local/fig_effect_size_summary_dotplot.svg]
+
+Fig5:
+  rows:
+    - [[results/figures/06_01_spatial_analysis/fig1_UMAP_dual.svg, 1.21],
+       [results/figures/06_01_spatial_analysis/fig3_volcano_DEA_CD68.svg, 1.00]]
+    - [[results/figures/06_01_spatial_analysis/fig2_violin_HMGB1_HAVCR2_MAFB_Q3corrected.svg, 2.17],
+       [results/figures/06_01_spatial_analysis/task5_dual_chamber_heatmap.svg, 2.00],
+       [results/figures/06_01_spatial_analysis/fig4_scatter_HMGB1_HAVCR2_LATAM.svg, 2.33]]
+    - [[results/figures/06_01_spatial_analysis/fig5_GSEA_joyplot.svg, 1.00]]
+
+Fig6:
+  rows:
+    - [results/figures/07_01_prognosis_main/A0b_LASSO_coef.pdf]
+    - [results/figures/07_01_prognosis_main/A0a_LASSO_CV.pdf]
+    - [results/figures/07_01_prognosis_main/A5_MultiCohort_KM.pdf]
+    - [results/figures/07_01_prognosis_main/A1_Cox_forest.pdf]
+    - [results/figures/07_01_prognosis_main/A3_Calibration_curves.pdf]
+    - [results/figures/07_01_prognosis_main/A4_Immune_infiltration.pdf]
+
+Fig7:
+  rows:
+    - [results/figures/08_01_ic50_and_boltz2/top200_gdsc2_matched.svg]
+    - [results/figures/08_01_ic50_and_boltz2/Figure_IC50_Raincloud_HAVCR2_docking.svg]

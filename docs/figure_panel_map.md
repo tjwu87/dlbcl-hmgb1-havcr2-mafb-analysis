@@ -1,0 +1,142 @@
+# 主图 panel 构成与来源
+
+本文件由论文图注自动拆解生成（`tools/gen_panel_map.py`），用于把每个主图的
+panel 对应到产出脚本，并记录尺寸诊断与排版建议。
+
+> **状态**：「产出脚本」列依据分析流程推断。原主图由 panel 级脚本产出后人工
+> 拼装，panel → 图形的精确对应需人工确认。
+
+---
+
+## Fig1.png
+
+- 当前像素：6520 × 4120　宽高比：**1.58**　panel 数：**6**
+- LaTeX 当前设置：`width=\textwidth`
+- 产出脚本：`01_scRNA_GSE182434/*, 02_cellcomm_LIANA/* → 10_figures/10_00_all_panels_GSE182434.py`
+- 排版建议：宽高比 1.58，布局合理；按 6.30 in 宽重排即可。
+
+**图题**：Malignant B cells preferentially engage the myeloid compartment in DLBCL.
+
+- **(a)** UMAP visualization of the integrated GSE182434 single-cell dataset showing refined cell-type annotations (left) and tissue origin (DLBCL versus tonsil; right). Major immune compartments and refined B-cell states were identified after dataset integration and annotation; the independent resolution-0.6 clustering recovered the major-compartment structure (weighted mean cluster purity = 0.88; NMI = 0.638; ARI = 0.489), with residual cluster splitting reflecting within-compartment substructure (Table
+- **(b)** Dot plot of canonical marker genes across annotated cell populations, supporting the identification of T-cell, NK-cell, B-cell, plasma-cell, monocyte/macrophage, and pDC/other compartments
+- **(c)** inferCNV heatmap of B cells using tonsil-derived B cells as the reference. Compared with tonsil-derived normal B cells and inferCNV-low B cells from DLBCL samples, inferCNV-high B cells exhibited widespread large-scale chromosomal alterations consistent with a malignant phenotype
+- **(d)** Global cell--cell communication network inferred by LIANA from top-ranked ligand--receptor interactions, showing the overall interaction landscape among malignant B cells, normal B cells, and major immune cell populations in DLBCL
+- **(e)** Heatmap of aggregated cell--cell communication strength between malignant B cells, normal B cells, and major immune cell populations. Monocytes/macrophages emerged as a prominent communication partner, with stronger interactions involving malignant B cells than normal B cells
+- **(f)** Differential ligand--receptor interaction analysis using monocytes/macrophages as the target population, comparing malignant B cells with normal B cells. Red dots indicate malignant B cell--enriched interactions, whereas green dots indicate normal B cell--enriched interactions
+
+## Fig2.png
+
+- 当前像素：4360 × 6072　宽高比：**0.72**　panel 数：**6**
+- LaTeX 当前设置：`width=\textwidth`
+- 产出脚本：`03_trajectory_PAGA/03_01_paga_trajectory.py（轨迹）+ GSE182434/trajectory/`
+- 排版建议：宽高比 0.72，塞满页宽后高度接近整页；建议 2 行 × 3 列并压缩留白。
+
+**图题**：Trajectory and communication analyses position LA~TAM as a terminal immunoregulatory macrophage state associated with malignant B-cell signaling in DLBCL.
+
+- **(a)** UMAP projection of monocytes/macrophages extracted from the integrated DLBCL single-cell atlas, showing five transcriptionally distinct myeloid states: Mono, DC~1, DC~2, IFN~TAM, and LA~TAM
+- **(b)** Dot plot showing representative marker-gene expression patterns across myeloid subtypes, supporting annotation of monocyte-like, dendritic-like, and TAM-like programs Dot size indicates the fraction of cells in each subtype expressing the gene, and color intensity indicates scaled average expression
+- **(c)** Subtype-resolved cell--cell communication network between malignant B cells and myeloid subtypes. Edge width represents aggregated communication strength derived from LIANA-inferred ligand--receptor interactions. Although LA~TAM was not the dominant immediate communication partner of malignant B cells, the overall communication pattern was consistent with LA~TAM representing a downstream differentiated macrophage state within a broader TAM-oriented process
+- **(d)** Trajectory inference of myeloid subtypes using partition-based graph abstraction (PAGA) and diffusion pseudotime (DPT). PAGA topology supports a branching architecture with Mono at an early/root-like position, a TAM-oriented branch extending through IFN~TAM toward LA~TAM, and a dendritic-like branch involving DC~1 and DC~2. DPT further positions LA~TAM at later pseudotime values, consistent with terminal placement along the TAM-oriented branch
+- **(e)** Heatmap showing pseudotime-resolved gene-expression dynamics along the myeloid trajectory. Early pseudotime is characterized by monocyte-associated and inflammatory-response-associated genes, followed by induction of IFN~TAM-associated features and subsequent upregulation of LA~TAM markers along late pseudotime
+- **(f)** Comparative pathway enrichment analysis of IFN~TAM and LA~TAM states, highlighting functional divergence between a response-associated intermediate macrophage state and a terminal immunoregulatory LA~TAM state. IFN~TAM is enriched for IL-17, TNF, and antigen-presentation-related programs, whereas LA~TAM is enriched for lysosomal, cholesterol metabolic, and phagocytosis-associated pathways
+
+## Fig3.png
+
+- 当前像素：5808 × 12200　宽高比：**0.48**　panel 数：**7**
+- LaTeX 当前设置：`height=\textheight`
+- 产出脚本：`04_pySCENIC/04_01_pyscenic_regulons.py（受体与调控子优先化）`
+- 排版建议：宽高比 0.48，最严重。当前用 height=textheight 约束，实际只占约 0.72 倍版面宽，**必须重排**（建议 2 列 × 4 行，或拆为 Fig3a/3b）。
+
+**图题**：Receptor and regulon analyses converge on a prioritized HAVCR2--MAFB module associated with terminal LA~TAM polarization in DLBCL.
+
+- **(a)** Heatmap showing pseudotime-associated expression dynamics of receptors derived from malignant B cell--enriched ligand--receptor interactions projected onto the Mono--IFN~TAM--LA~TAM trajectory. Receptors are ordered by smoothed expression pattern across pseudotime
+- **(b)** Heatmap of pySCENIC-derived regulon activity across myeloid cells ordered by subtype and pseudotime, showing representative transcription factor programs associated with the Mono, IFN~TAM, and LA~TAM states
+- **(c)** Smoothed pseudotime-expression curves for prioritized receptors, including CD74, HLA-DPA1, HAVCR2, and AXL, illustrating significant positive association with pseudotime and sustained or late-rising expression patterns along the TAM-oriented trajectory
+- **(d)** Regulon Specificity Score (RSS) plot across myeloid subtypes. Top-ranking transcription factors from each subtype were integrated and refined to define trajectory-relevant candidate regulators and a core transcription factor set associated with terminal LA~TAM polarization
+- **(e)** Integrated receptor--transcription factor regulatory framework linking malignant B cell--associated ligands, macrophage receptors, downstream signaling modules, and prioritized core transcription factors across the TAM-oriented branch. HAVCR2 and AXL emerged as the two receptors most closely associated with the LA~TAM-oriented branch in the integrated framework
+- **(f)** Pseudotime-aligned comparison of receptor expression and regulon activity for prioritized receptor--transcription factor pairings. HAVCR2 expression and MAFB regulon activity showed the most concordant temporal behavior along the terminal TAM-oriented trajectory
+- **(g)** Functional enrichment analysis of the motif-pruned MAFB regulon target genes, showing enrichment for vesicle trafficking, protein localization, lysosomal remodeling, inflammatory regulation, and metabolism-associated pathways
+
+## Fig4.png
+
+- 当前像素：5608 × 5872　宽高比：**0.96**　panel 数：**8**
+- LaTeX 当前设置：`width=\textwidth`
+- 产出脚本：`05_CellOracle/step* → 05_CellOracle/05_90_reproduce_figures_local.py`
+- 排版建议：8 个 panel，宽高比 0.96；建议 2 行 × 4 列。
+
+**图题**：In silico perturbation supports a role for MAFB in transition toward the terminal LA~TAM state.
+
+- **(a)** UMAP projection of the macrophage-restricted manifold showing cell subtypes (left), MAFB expression (middle), and CellOracle-inferred perturbation magnitude following simulated MAFB knockout (right) across Mono, IFN~TAM, and LA~TAM cells
+- **(b)** Violin plots showing LA~TAM-directed fate scores under wild-type and simulated MAFB knockout conditions across Mono, IFN~TAM, and LA~TAM subtypes. The LA~TAM panel reflects the terminal-state position of these cells within the inferred manifold and is interpreted as a supplementary observation (see text).
+- **(c)** CellOracle-inferred transition vector fields under baseline wild-type, simulated MAFB knockout, and randomized-network null conditions, showing structured perturbation of the macrophage transition landscape following MAFB loss
+- **(d)** MAFB-centered regulatory network inferred from the macrophage-restricted gene regulatory model. Nodes represent transcription factors and target genes, and edges indicate inferred regulatory relationships
+- **(e)** Heatmap of significantly downregulated genes following simulated MAFB knockout across Mono, IFN~TAM, and LA~TAM cells, highlighting subtype-dependent downstream transcriptional responses
+- **(f)** Violin plots showing LA~TAM-associated program scores under wild-type and simulated MAFB knockout conditions across Mono, IFN~TAM, and LA~TAM subtypes. For LA~TAM cells, the negligible absolute program-score change despite a nominal effect-size signal reflects low within-group variance (see also Table~S6).
+- **(g)** Functional enrichment analysis of genes responsive to simulated MAFB knockout, showing enrichment for myeloid differentiation, lysosomal and phagosomal function, complement-associated processes, cytokine signaling, and inflammatory response pathways
+- **(h)** Summary of simulated MAFB knockout effects across macrophage subtypes, including changes in LA~TAM-directed fate scores, LA~TAM-associated program scores, and fate-field signal-to-noise ratio (SNR) values quantifying the coherence of the knockout-condition fate field within each subtype (mean divided by standard deviation). LA~TAM panels reflect the terminal-state position of these cells within the inferred manifold and are interpreted as supplementary observations (see text)
+
+## Fig5.png
+
+- 当前像素：4504 × 3696　宽高比：**1.22**　panel 数：**6**
+- LaTeX 当前设置：`width=\textwidth`
+- 产出脚本：`06_spatial_GSE232853/06_01_spatial_analysis.py`
+- 排版建议：宽高比 1.22，布局合理。
+
+**图题**：Spatial profiling supports compartmentalized activation of the HMGB1--HAVCR2--MAFB/LA~TAM-associated axis and rewired cross-compartment coupling in DLBCL.
+
+- **(a)** UMAP visualization of GeoMx DSP areas of illumination (AOIs) colored by cell compartment (left) and tissue type (right), showing the overall distribution of CD20$^+$ and CD68$^+$ regions across DLBCL and normal samples
+- **(b)** Volcano plot of differential expression in CD68$^+$ macrophage compartments comparing DLBCL with normal tissues. Representative upregulated genes in DLBCL include HAVCR2 and MAFB, whereas HMGB1 shows modest downregulation
+- **(c)** Violin plots comparing HMGB1, HAVCR2, and MAFB expression between CD20$^+$ and CD68$^+$ AOIs. HMGB1 is enriched in CD20$^+$ compartments, whereas HAVCR2 and MAFB are enriched in CD68$^+$ compartments
+- **(d)** Dual-compartment heatmap of paired ROIs ordered by B-cell HMGB1 expression, illustrating coordinated spatial variation of macrophage HAVCR2, MAFB, and target-gene program activity in DLBCL and normal tissues
+- **(e)** Cross-compartment correlation analyses across paired ROIs. Left, B-cell HMGB1 versus macrophage-side HAVCR2. Right, B-cell HMGB1 versus macrophage LA~TAM score. The structure of B-cell--macrophage coupling differs between normal and DLBCL tissues, with attenuation of the HMGB1--LA~TAM association in lymphoma tissue
+- **(f)** Ridge plot showing hallmark pathway enrichment in CD20$^+$ tumor compartments stratified by the LA~TAM status of the paired CD68$^+$ compartment. LA~TAM-rich niches are associated with proliferative and biosynthetic tumor programs, whereas LA~TAM-poor niches retain relatively stronger inflammatory signaling states. These are cross-sectional associations, and directionality is not established
+
+## Fig6.png
+
+- 当前像素：6592 × 8568　宽高比：**0.77**　panel 数：**8**
+- LaTeX 当前设置：`width=\textwidth`
+- 产出脚本：`07_bulk_prognosis/07_01_lasso_signature.R + 07_02 + 07_03（R）`
+- 排版建议：8 个 panel，宽高比 0.77；建议 2 行 × 4 列，或拆为 Fig6a/6b。
+
+**图题**：A MAFB regulon-derived prognostic score links the LA~TAM-associated transcriptional program to adverse outcome and immune evasion in DLBCL.
+
+- **(a)** Least absolute shrinkage and selection operator (LASSO) Cox regression for candidate genes derived from the motif-pruned MAFB regulon in the GSE10846 training cohort. Left, coefficient trajectories of candidate genes across the penalty path. Right, 10-fold cross-validation curve used to determine the optimal penalty parameter $_$, yielding a 13-gene prognostic model
+- **(b)** Kaplan--Meier overall survival curves comparing low-risk and high-risk patients stratified by the median risk score in the GSE10846 training cohort and independent validation cohorts, including TCGA-DLBC ($n=45$, 9 events). Hazard ratios (HRs), 95\% confidence intervals (CIs), and log-rank $P$ values are summarized in Table~S14
+- **(c)** Forest plot of univariable and multivariable Cox regression analyses evaluating the prognostic significance of the continuous risk score together with conventional clinical variables in the training cohort. Detailed HRs, 95\% CIs, and $P$ values are provided in Table~S13
+- **(d)** Calibration curves for prediction of 1-, 3-, and 5-year overall survival, showing agreement between predicted and observed survival probabilities
+- **(e)** Immune-cell composition estimates comparing low-risk and high-risk tumors in the GSE10846 cohort, highlighting differences across multiple immune subsets, particularly macrophage populations. Representative significant differences included M0 macrophages ($P < 0.001$), M2 macrophages ($P = 0.002$), resting NK cells ($P < 0.001$), and gamma delta T cells ($P < 0.001$), whereas M1 macrophages were not significantly different ($P = 0.106$)
+- **(f)** Associations between the continuous prognostic risk score and inferred immune-cell abundance. Representative scatter plots and summary correlations highlight positive association with M2 macrophages, negative association with M1 macrophages, and no significant association with CD8$^+$ T cells
+- **(g)** Differential expression patterns of immune checkpoint-related genes between low-risk and high-risk groups in the training cohort
+- **(h)** TIDE-based evaluation of immune evasion and predicted response to immune checkpoint blockade in low-risk and high-risk tumors, showing increased predicted immune evasion and a lower predicted responder fraction in the high-risk group. The predicted responder fraction decreased from 66\% in the low-risk group to 46\% in the high-risk group. Exploratory relative comparison only; TIDE has not been validated in DLBCL
+
+## Fig7.png
+
+- 当前像素：6400 × 7088　宽高比：**0.90**　panel 数：**10**
+- LaTeX 当前设置：`width=\textwidth`
+- 产出脚本：`08_drug_GDSC/08_01_ic50_and_boltz2.py + 09_structure_docking_MD/*`
+- 排版建议：10 个 panel，密度最高；**建议拆为 Fig7a（a–e）/ Fig7b（f–j）两页**。
+
+**图题**：Exploratory structural analyses suggest HAVCR2 as a potentially tractable immune-regulatory node.
+
+- **(a)** Integrated ranking of FDA-approved or clinically used compounds with matched GDSC2 annotations. Left, scatter plot summarizing docking score, AI-assisted structural confidence, pharmacogenomic support, and additional prioritization features including expression- and variant-related evidence. Right, top-ranked compounds ordered by docking score among candidates with GDSC2 pharmacogenomic annotations
+- **(b)** Violin plots comparing predicted LN~IC50 values between high-risk and low-risk patients in the GSE10846 cohort using pRRophetic. Crizotinib and dabrafenib showed significantly lower predicted LN~IC50 values in the high-risk group, whereas the remaining significant comparisons trended in the opposite direction (Table~S16); these two compounds were therefore selected for detailed structural comparison. Two-sided Mann--Whitney U tests were used, with Benjamini--Hochberg correction applied across co
+- **(c)** Comparative structural evaluation of Crizotinib in the HAVCR2 pocket. Left, global view of the HAVCR2 IgV domain with the candidate small-molecule pocket shown as surface representation. Right, enlarged views showing docking- and Boltz-2-derived ligand poses within the prioritized pocket region
+- **(d)** Comparative structural evaluation of dabrafenib in the HAVCR2 pocket shown as in (c), including global and pocket-focused views
+- **(e)** Structural confidence comparison between Crizotinib and dabrafenib complexes. Left, radar plot summarizing ligand ipTM, pTM, complex pLDDT, and pocket protein-to-ligand PAE. Right, heatmap showing pocket-level confidence metrics for the two candidate complexes
+- **(f)** RMSD trajectories of the HAVCR2--Crizotinib molecular dynamics simulation, showing the time-dependent behavior of the complex, HAVCR2, and Crizotinib over the 100-ns trajectory
+- **(g)** Structural comparison of wild-type HAVCR2 and the V75M mutant in complex with Crizotinib. Left, superposition of the wild-type and mutant complexes. Right, enlarged pocket view showing mutation-associated local steric interference near residue 75
+- **(h)** Ligand-pose comparison between the wild-type and V75M complexes, highlighting mutation-associated displacement and reorientation of Crizotinib within the HAVCR2 pocket
+- **(i)** Residue-level structural impact of V75M. Left, perturbation profile across the HAVCR2 sequence with the candidate pocket interval highlighted and residue 75 marked. Right, summary of mutation-associated changes in structural and ligand-interface metrics, including ligand ipTM, pTM, pocket protein-to-ligand PAE, centroid displacement, ligand RMSD, ligand rotation, van der Waals clashes, clash score, and pocket contacts
+- **(j)** Pocket-focused protein-to-ligand PAE maps for the wild-type and V75M Crizotinib complexes and the corresponding difference map ($$PAE, V75M minus wild type), showing mutation-associated destabilization concentrated at the ligand-contacting interface. All pLDDT values are shown on the Boltz-2 normalized scale (0--1)
+
+---
+
+## 重导出检查清单
+
+- [ ] 所有画图脚本已调用 `apply_paper_style()` / `theme_paper()`
+- [ ] figsize 由 `panel_figsize(cols, rows)` 计算，宽度 ≤ 6.30 in
+- [ ] 导出格式：PDF（矢量）+ PNG（600 dpi）
+- [ ] 字号 ≥ 6 pt（轴标签、图例、统计标注逐一检查）
+- [ ] Fig3 重排后不再使用 `height=textheight`
+- [ ] Fig7 拆为 Fig7a / Fig7b
+- [ ] 每张主图单独存一份高分辨率文件供期刊单独上传

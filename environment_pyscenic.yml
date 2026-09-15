@@ -1,0 +1,37 @@
+# =============================================================================
+# pySCENIC 专用环境
+# -----------------------------------------------------------------------------
+#   conda env create -f environment_pyscenic.yml
+#   conda activate pyscenic
+#
+# 运行 pySCENIC 需要三份参考文件（放入 data/reference/）：
+#   hg38__refseq-r80__10kb_up_and_down_tss.mc9nr.genes_vs_motifs.rankings.feather
+#   hg38__refseq-r80__500bp_up_and_100bp_down_tss.mc9nr.genes_vs_motifs.rankings.feather
+#   motifs-v9-nr.hgnc-m0.001-o0.0.tbl
+# 下载：https://resources.aertslab.org/cistarget/
+# =============================================================================
+name: pyscenic
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.9
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - numba
+  - dask
+  - distributed
+  - matplotlib
+  - seaborn
+  - anndata
+  - scanpy
+  - loompy
+  - pyyaml
+  - pip
+  - pip:
+      - pyscenic
+      - arboreto
+      - ctxcore

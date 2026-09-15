@@ -1,0 +1,35 @@
+# =============================================================================
+# CellOracle 专用环境
+# -----------------------------------------------------------------------------
+# CellOracle 对 Python 版本与 numba 敏感，与主 scanpy 环境隔离
+#   conda env create -f environment_celloracle.yml
+#   conda activate celloracle
+#   python 05_CellOracle/step00A_env.py
+# =============================================================================
+name: celloracle
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.9
+  - numpy<1.24
+  - pandas
+  - scipy
+  - scikit-learn
+  - numba
+  - matplotlib
+  - seaborn
+  - statsmodels
+  - anndata<0.10
+  - scanpy<1.10
+  - loompy
+  - h5py
+  - igraph
+  - leidenalg
+  - umap-learn
+  - gseapy
+  - jupyterlab
+  - pip
+  - pip:
+      - celloracle

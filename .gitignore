@@ -1,0 +1,30 @@
+# 数据与运行产物不入库（本仓库只发布代码）
+data/*
+!data/README.md
+results/
+logs/
+*.h5ad
+*.h5
+*.pkl
+*.npz
+*.npy
+*.Rdata
+*.rds
+# 图件产物
+*.png
+*.pdf
+*.svg
+*.tif
+*.tiff
+# 表格产物（如需入库请在此处显式放开）
+*.csv
+*.tsv
+*.xlsx
+# Python
+__pycache__/
+*.pyc
+.venv/
+# 系统
+.DS_Store
+Thumbs.db
+desktop.ini

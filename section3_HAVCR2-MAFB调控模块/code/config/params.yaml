@@ -1,0 +1,165 @@
+# =============================================================================
+# 分析参数总表
+# -----------------------------------------------------------------------------
+# 本文件是「论文 Methods 声明值」与「代码实际使用值」的唯一对照来源。
+# 所有脚本应从这里读取参数，避免多处硬编码导致前后不一致。
+#
+#   ⚠ 待核项：标记为 TODO 的参数在论文正文与代码/图之间存在不一致，
+#     投稿前必须确认，见文件末尾 "INCONSISTENCIES" 段。
+#
+# Python 读取:  yaml.safe_load(open("config/params.yaml"))
+# R 读取:       config::get()  /  yaml::read_yaml("config/params.yaml")
+# =============================================================================
+
+project:
+  name: DLBCL_HMGB1_HAVCR2_MAFB
+  title: "Integrative single-cell and spatial transcriptomic analyses of a candidate HMGB1-HAVCR2-MAFB axis in DLBCL"
+  random_seed: 42
+
+# ── 1. 单细胞发现队列 GSE182434 ───────────────────────────────────────────────
+scrna:
+  dataset: GSE182434
+  samples: "4 DLBCL + 1 tonsil"
+  qc:
+    mad_outlier_filter: 5            # 每例患者 5 MAD
+    scrublet_score_threshold: 0.25
+    cells_removed: 713
+    cells_remaining: 17484
+  integration:
+    method: harmony
+    batch_key: patient
+    n_pcs: 30
+  # 髓系亚群重聚类（论文 4.3 节 / Results 3.2）
+  myeloid_recluster:
+    n_neighbors: 15
+    n_pcs: 20
+    leiden_resolution: 0.4           # TODO: Fig S1b 图上标注为 0.6，与正文 0.4 不一致
+    n_cells: 529
+    subsets:
+      Mono: 127
+      DC1: 84
+      DC2: 173
+      IFN_TAM: 65
+      LA_TAM: 80
+  # Mono/Mac 再嵌入
+  monomac_reembed:
+    hvg_n_top_genes: 2000
+    n_pcs: 30
+    n_neighbors: 15
+    n_pcs_graph: 20
+    leiden_resolution: 0.4
+  cnv:
+    method: infercnv
+    reference: "tonsil-derived normal B cells"
+    malignancy_rule: "CNV score above 99th percentile of normal B-cell reference"
+
+# ── 2. 细胞通讯 LIANA ─────────────────────────────────────────────────────────
+cellcomm:
+  method: liana
+  expr_prop: 0.1
+  min_cells: 5
+  n_perms: 100
+  seed: 42
+  magnitude_rank_threshold: 0.05     # 显著互作筛选阈值
+
+# ── 3. 轨迹分析 ───────────────────────────────────────────────────────────────
+trajectory:
+  paga:
+    n_neighbors: 15
+    n_pcs: 20
+    leiden_resolution: 0.4
+  diffusion_map:
+    n_comps: 15
+  cytotrace_like: true
+
+# ── 4. pySCENIC 调控子 ────────────────────────────────────────────────────────
+pyscenic:
+  aucell: true
+  rss_states: [Mono, IFN_TAM, LA_TAM]
+  receptors_of_interest: [HAVCR2]
+  tfs_of_interest: [MAFB]
+
+# ── 5. CellOracle 扰动 ────────────────────────────────────────────────────────
+celloracle:
+  subset: [Mono, IFN_TAM, LA_TAM]
+  hvg_method: seurat_v3
+  hvg_n_top_genes: 3000              # Scanpy seurat_v3 默认值
+  normalization: log1p
+  pca_n_comps: 50
+  knn_smoothing_k: 20
+  base_grn: base_GRN_human_promoter.csv
+  grn_filter:
+    p_value: 0.001
+    max_edges: 2000                  # CellOracle 推荐过滤上限
+  perturbation_gene: MAFB
+
+# ── 6. 空间转录组 GSE232853 (GeoMx DSP) ───────────────────────────────────────
+spatial:
+  dataset: GSE232853
+  platform: "GeoMx DSP"
+  compartments: [B-cell regions, macrophage regions]
+  la_tam_score:
+    n_genes: 16
+    source: "CD68+ gene set"         # TODO: 与单细胞 LA_TAM marker(APOE/APOC1/ACP5/CCL18/CTSD)不同集，
+                                     #       审稿人要求说明两者关系（Reviewer 3）
+  genes_of_interest: [HMGB1, HAVCR2, MAFB]
+
+# ── 7. bulk 预后模型 ──────────────────────────────────────────────────────────
+prognosis:
+  discovery_cohort: GSE10846
+  validation_cohorts: [GSE32918, GSE4475, GSE23501, TCGA-DLBC]
+  model: "LASSO-Cox"
+  n_genes_in_signature: 13
+  signature_source: "MAFB regulon target genes (23 candidates → 13 selected)"
+  cutoff: "cohort-specific median"
+  seed: 42
+  caveat: "TCGA-DLBC n=45, 9 events, 效力不足（HR 2.166, 95%CI 0.506-9.283）"
+  immune_deconvolution:
+    method: CIBERSORT
+    note: "M0/M2 估计受参考矩阵假设影响，需谨慎解读"
+  tide:
+    note: "TIDE 主要在实体瘤训练，DLBCL 中仅作探索性指标"
+
+# ── 8. 药物敏感性 / 结构建模 ──────────────────────────────────────────────────
+drug:
+  ic50_prediction: pRRophetic
+  reference: GDSC2
+  top_compounds: 10
+  target: HAVCR2
+structure:
+  docking:
+    target_pocket: "HAVCR2 IgV domain"
+    top_compounds_ranked: 200
+  boltz2:
+    note: "共折叠预测；pLDDT/pTM 见 Table S17"
+  md:
+    engine: GROMACS
+    analyses: [RMSD, RMSF, MM-GBSA]
+  variants:
+    modeled: V75M
+    distance_to_pocket_A: 4.0
+    note: "Tier-1 变体中 W83C (3.65Å)、D74Y/D74G (4.96Å) 更近，需说明选择依据（Reviewer 3）"
+
+# ── 9. 出图规格（见 config/plot_style.py）─────────────────────────────────────
+figure:
+  textwidth_in: 6.30                 # sn-jnl: 160 mm
+  textheight_in: 8.50                # sn-jnl: 216 mm
+  safe_height_in: 7.60
+  base_font_pt: 8.0
+  min_font_pt: 6.0
+  dpi: 600
+  formats: [pdf, png]
+  prefer_vector: true
+
+# =============================================================================
+# INCONSISTENCIES — 投稿前必须核实
+# =============================================================================
+# 1. Leiden resolution：Methods 4.3 写 0.4，但 Fig S1b 图上标注 res = 0.6。
+#    Reviewer 2 已注意到 Fig S1b 的 0.6。二者必须统一。
+# 2. HVG 数量：CellOracle 用 3,000（seurat_v3 默认），Mono/Mac 再嵌入用 2,000。
+#    数值本身不冲突（不同步骤），但建议 Methods 明确区分，避免读者混淆。
+# 3. 空间 LA_TAM 评分用 16 个 CD68+ 基因，单细胞 LA_TAM 定义用 5 个 marker，
+#    需说明两者关系（Reviewer 3）。
+# 4. Table S17 中 crizotinib 的 complex pLDDT (0.9601) 与 pTM (0.9601) 四舍五入后
+#    相同，全精度实为 0.960053 / 0.960141（已核实，仅需在表注说明）。
+# =============================================================================

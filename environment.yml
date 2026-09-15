@@ -1,0 +1,48 @@
+# =============================================================================
+# 主分析环境（单细胞 / 通讯 / 轨迹 / 空间 / 画图）
+# -----------------------------------------------------------------------------
+#   conda env create -f environment.yml
+#   conda activate dlbcl
+#
+# CellOracle 与 pySCENIC 依赖较苛刻（Python 版本与 numba 限制），
+# 单独建环境，见 environment_celloracle.yml 与 environment_pyscenic.yml。
+# =============================================================================
+name: dlbcl
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.10
+  # 核心科学计算
+  - numpy
+  - pandas>=1.5
+  - scipy
+  - scikit-learn
+  - statsmodels
+  # 单细胞
+  - scanpy>=1.9
+  - anndata>=0.9
+  - h5py
+  - harmonypy
+  - scrublet
+  - leidenalg
+  - igraph
+  - umap-learn
+  - scanpy-scripts
+  # 可视化（出图规范见 config/plot_style.py）
+  - matplotlib>=3.6
+  - seaborn>=0.12
+  - adjusttext
+  # 富集分析
+  - gseapy>=1.0
+  # 工具
+  - jupyterlab
+  - pyyaml
+  - tqdm
+  - pip
+  - pip:
+      - liana                 # LIANA 细胞通讯（Python 版）
+      - celltypist            # 细胞类型注释
+      - cellrank              # 轨迹方向性
+      - pymol-open-source     # 结构可视化（可选）

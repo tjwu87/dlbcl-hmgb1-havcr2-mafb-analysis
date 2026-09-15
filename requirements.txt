@@ -1,0 +1,33 @@
+# Python 3.10；R 依赖见 install_R_packages.R
+# conda 环境见 environment.yml（本文件为 pip 最小集）
+
+GEOparse
+Pillow
+PyYAML
+adjustText
+anndata
+arboreto
+celloracle
+cellrank
+celltypist
+ctxcore
+gseapy
+h5py
+harmonypy
+infercnvpy
+liana
+loompy
+matplotlib
+networkx
+numpy
+pandas
+pypdf
+pypdfium2
+pyscenic
+reportlab
+scanpy
+scikit-learn
+scipy
+scrublet
+seaborn
+statsmodels

@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software, please cite it using the metadata from this file.
+title: >-
+  DLBCL HMGB1-HAVCR2-MAFB multi-omics analysis pipeline
+authors:
+  - family-names: "Tang"
+    given-names: "Jianwu"
+    orcid: "https://orcid.org/0009-0009-6619-5852"
+version: v1.0.0
+date-released: "2026-09-13"
+license: MIT
+repository-code: "https://github.com/tjwu87/dlbcl-hmgb1-havcr2-mafb-analysis"
+abstract: >-
+  Multi-omics analysis code (scRNA-seq, LIANA cell communication, PAGA
+  trajectory, pySCENIC regulons, CellOracle perturbation, spatial
+  transcriptomics and bulk prognosis modelling) for the candidate
+  HMGB1-HAVCR2-MAFB axis in the DLBCL tumour microenvironment.
+keywords:
+  - DLBCL
+  - single-cell RNA-seq
+  - spatial transcriptomics
+  - tumour microenvironment
+  - pySCENIC
+  - CellOracle
