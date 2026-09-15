@@ -1,29 +1,31 @@
-# code/04_pySCENIC/ —— 上游本体脚本（找回件）
+# code/04_pySCENIC/ — upstream core scripts (recovered)
 
-`04_01_pyscenic_downstream_stats_figures.py` 只做**统计与出图**，它读的是
-`<数据根>/GSE182434/scenic/data_*.csv`。这些 CSV 由 pySCENIC 本体产生，
-原先仓库里没有产出它们的代码。下面三个脚本从 Biomni 平台的分析记录中找回，
-参数与数据库地址均为**原文照录**。
+`04_01_pyscenic_downstream_stats_figures.py` only does **statistics and plotting**; it
+reads `<data root>/GSE182434/scenic/data_*.csv`. Those CSVs are produced by the pySCENIC
+core, for which the repository originally had no code. The three scripts below were
+recovered from the Biomni platform's analysis records; parameters and database URLs are
+transcribed **verbatim**.
 
-| 脚本 | 作用 |
+| Script | Purpose |
 | --- | --- |
-| `04_00a_setup_scenic_db.sh` | 下载 pySCENIC 三个参考数据库（TF 列表 / hg38 motif 排名 / motif-TF 注释），并在注释中给出官方 CLI 三步命令 |
-| `04_00b_build_loom.py` | 构建 loom 输入（Mono+IFN_TAM+LA_TAM = 327 细胞 × 9118 基因，≥5% 表达过滤） |
-| `04_00c_pyscenic_run_and_export.py` | GRNBoost2 → 共表达模块 → RcisTarget（NES≥3.0）→ AUCell，并导出下游所需 `data_*.csv` |
+| `04_00a_setup_scenic_db.sh` | Downloads the three pySCENIC reference databases (TF list / hg38 motif rankings / motif–TF annotations) and documents the three official CLI commands in comments |
+| `04_00b_build_loom.py` | Builds the loom input (Mono + IFN_TAM + LA_TAM = 327 cells × 9,118 genes, filtered to genes expressed in ≥ 5% of cells) |
+| `04_00c_pyscenic_run_and_export.py` | GRNBoost2 → co-expression modules → RcisTarget (NES ≥ 3.0) → AUCell, plus export of the downstream `data_*.csv` files |
 
-## 环境
+## Environment
 
-`pyscenic`、`arboreto`、`ctxcore`、`loompy`，另需 `scanpy`/`anndata` 读 h5ad。
+`pyscenic`, `arboreto`, `ctxcore`, `loompy`, plus `scanpy`/`anndata` to read h5ad.
 
-## 为什么用 Python API 而不是 CLI
+## Why the Python API rather than the CLI
 
-Biomni 记录显示 CLI 的 dask 后端在容器里不稳定（`pyscenic ctx` 长时间输出 0 字节，
-且 `aggregate_func` 与新版 dask 的 `from_delayed` 不兼容）。最终采用
-`client_or_address='custom_multiprocessing'` 的 Python API 绕过 dask，
-阈值参数与 CLI 完全一致。CLI 等价命令写在 `04_00a` 的文件头注释里。
+The Biomni records show that the CLI's dask backend was unstable in the container
+(`pyscenic ctx` produced zero bytes of output for a long time, and `aggregate_func` is
+incompatible with the newer dask `from_delayed`). The final run used the Python API with
+`client_or_address='custom_multiprocessing'` to bypass dask; the threshold parameters are
+identical to the CLI. The equivalent CLI commands are in the header comment of `04_00a`.
 
-## 前置条件
+## Prerequisites
 
-`04_00b` 需要已注释髓系亚型的 h5ad（含 `mac_subtype` 列，
-Mono/IFN_TAM/LA_TAM 之外的细胞会被排除）。该注释属单细胞上游步骤，
-不在本仓库范围内。
+`04_00b` needs an h5ad with annotated myeloid subtypes (a `mac_subtype` column; cells
+outside Mono/IFN_TAM/LA_TAM are excluded). That annotation is a single-cell upstream
+step and is outside the scope of this repository.

@@ -1,54 +1,54 @@
-# MAFB in-silico perturbation (CellOracle)
+# MAFB计算机扰动
 
-> **Paper mapping**: Results 4 — MAFB in-silico perturbation (CellOracle)  
-> **Figures**: Figure 4 (a–h)
+> **论文对应**：Results 4 — MAFB 计算机扰动（CellOracle）  
+> **图件**：Figure 4（a–h）
 
-## What this part does
+## 分析内容
 
-CellOracle: base GRN → oracle construction → links filtering → GRN fitting → MAFB KO/OE/Null perturbation → fate probability → sensitivity analysis
+CellOracle：base GRN → oracle 构建 → links 过滤 → GRN 拟合 → MAFB KO/OE/Null 扰动 → 命运概率 → 敏感性分析
 
-## Layout
+## 目录
 
 ```
 section4_MAFB计算机扰动/
-├── code/            analysis scripts (see below)
-├── data/            intermediates specific to this part (for comparison / reuse)
-├── figures/         paper figures and panels
+├── code/            分析脚本（见下）
+├── data/            本部分专有的中间产物（可比对/复用）
+├── figures/         论文图件与面板
 └── README.md
 ```
 
-## Scripts
+## 脚本清单
 
-| Script | Notes |
+| 脚本 | 说明 |
 | --- | --- |
-| `code/05_CellOracle/05_90_reproduce_figures_local.py` |  |
-| `code/05_CellOracle/05_91_grn_edge_sensitivity.py` |  |
-| `code/05_CellOracle/step00A_env.py` |  |
-| `code/05_CellOracle/step00B_freeze_params.py` |  |
-| `code/05_CellOracle/step01_preprocess.py` |  |
-| `code/05_CellOracle/step02AB_oracle_build.py` |  |
-| `code/05_CellOracle/step02C_get_links.py` |  |
-| `code/05_CellOracle/step02DE_filter_audit.py` |  |
-| `code/05_CellOracle/step02F_fit_grn.py` |  |
-| `code/05_CellOracle/step03_null.py` |  |
-| `code/05_CellOracle/step03_perturbation.py` |  |
-| `code/05_CellOracle/step04A_fate_calc.py` |  |
-| `code/05_CellOracle/step04B_fate_stats.py` |  |
-| `code/05_CellOracle/step04_5_consistency_check.py` |  |
-| `code/05_CellOracle/step04_scoring_figures.py` |  |
-| `code/05_CellOracle/step05_scenic_targets.py` |  |
-| `code/05_CellOracle/step06_program_score.py` |  |
-| `code/05_CellOracle/step07C_ko_response_enrichment.py` |  |
-| `code/05_CellOracle/step07_enrichment.py` |  |
-| `code/05_CellOracle/step08AB_sensitivity.py` |  |
-| `code/05_CellOracle/step08C_sensitivity_hvg4000.py` |  |
-| `code/05_CellOracle/step08D_sensitivity_n30.py` |  |
-| `code/05_CellOracle/step08E_k_sensitivity.py` |  |
-| `code/05_CellOracle/step08_summary.py` |  |
-| `code/05_CellOracle/step09_export_data.py` |  |
-| `code/05_CellOracle/step09_fig23_deg_ora.py` |  |
+| `code/05_CellOracle/05_90_reproduce_figures_local.py` | |
+| `code/05_CellOracle/05_91_grn_edge_sensitivity.py` | |
+| `code/05_CellOracle/step00A_env.py` | |
+| `code/05_CellOracle/step00B_freeze_params.py` | |
+| `code/05_CellOracle/step01_preprocess.py` | |
+| `code/05_CellOracle/step02AB_oracle_build.py` | |
+| `code/05_CellOracle/step02C_get_links.py` | |
+| `code/05_CellOracle/step02DE_filter_audit.py` | |
+| `code/05_CellOracle/step02F_fit_grn.py` | |
+| `code/05_CellOracle/step03_null.py` | |
+| `code/05_CellOracle/step03_perturbation.py` | |
+| `code/05_CellOracle/step04A_fate_calc.py` | |
+| `code/05_CellOracle/step04B_fate_stats.py` | |
+| `code/05_CellOracle/step04_5_consistency_check.py` | |
+| `code/05_CellOracle/step04_scoring_figures.py` | |
+| `code/05_CellOracle/step05_scenic_targets.py` | |
+| `code/05_CellOracle/step06_program_score.py` | |
+| `code/05_CellOracle/step07C_ko_response_enrichment.py` | |
+| `code/05_CellOracle/step07_enrichment.py` | |
+| `code/05_CellOracle/step08AB_sensitivity.py` | |
+| `code/05_CellOracle/step08C_sensitivity_hvg4000.py` | |
+| `code/05_CellOracle/step08D_sensitivity_n30.py` | |
+| `code/05_CellOracle/step08E_k_sensitivity.py` | |
+| `code/05_CellOracle/step08_summary.py` | |
+| `code/05_CellOracle/step09_export_data.py` | |
+| `code/05_CellOracle/step09_fig23_deg_ora.py` | |
 
-## Input data (shared, under `data/`)
+## 输入数据（公用，位于 `data/`）
 
 - `celloracle0331/oracle_WT.pkl`
 - `celloracle0331/oracle_MAFB_KO.pkl`
@@ -57,24 +57,24 @@ section4_MAFB计算机扰动/
 - `GSE182434/celloracle_rerun_20260324_035651/base_GRN_human_promoter.csv`
 - `GSE182434/celloracle_paper_final_20260331_085223/`
 
-## How to run
+## 复现命令
 
 ```bash
-# No data root needed: config/paths.py resolves to data/ by default
+# 数据根无需设置：config/paths.py 默认解析到 data/
 cd DLBCL_HMGB1_HAVCR2_MAFB
-# whole pipeline
+# 全流程
 python run_all.py
-# this part only
+# 只跑本部分
 python run_all.py --stage 4
 ```
 
-## Environment status
+## 环境状态
 
-- Required: celloracle, pyscenic, ctxcore
-- Already available in the local `scRNA` environment: (none)
-- Still missing: celloracle, pyscenic, ctxcore
+- 需要：celloracle, pyscenic, ctxcore
+- 本机 `scRNA` 环境已具备：（无）
+- 尚缺：celloracle, pyscenic, ctxcore
 
-## Output figures
+## 产出图件
 
 - `figures/论文成图/Fig4.png`
 - `figures/论文成图/FigS4.png`

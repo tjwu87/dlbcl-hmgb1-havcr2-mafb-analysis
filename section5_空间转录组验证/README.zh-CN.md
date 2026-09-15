@@ -1,34 +1,34 @@
-# Spatial transcriptomics validation (GeoMx)
+# 空间转录组验证
 
-> **Paper mapping**: Results 5 — spatial transcriptomics validation (GeoMx)  
-> **Figures**: Figure 5 (a–f), Figure S5
+> **论文对应**：Results 5 — 空间转录组验证（GeoMx）  
+> **图件**：Figure 5（a–f）、Figure S5
 
-## What this part does
+## 分析内容
 
-GSE232853 GeoMx: Q3 normalisation → ROI/AOI expression → paired ROI comparison → DEA → GSEA/ssGSEA → spatial co-variation
+GSE232853 GeoMx：Q3 归一化 → ROI/AOI 表达 → 配对 ROI 比较 → DEA → GSEA/ssGSEA → 空间共变
 
-## Layout
+## 目录
 
 ```
 section5_空间转录组验证/
-├── code/            analysis scripts (see below)
-├── data/            intermediates specific to this part (for comparison / reuse)
-├── figures/         paper figures and panels
+├── code/            分析脚本（见下）
+├── data/            本部分专有的中间产物（可比对/复用）
+├── figures/         论文图件与面板
 └── README.md
 ```
 
-## Scripts
+## 脚本清单
 
-| Script | Notes |
+| 脚本 | 说明 |
 | --- | --- |
-| `code/06_spatial_GSE232853/06_01_spatial_analysis.py` |  |
-| `code/06_spatial_GSE232853/06_00a_download_and_build_meta.py` | Upstream core (recovered): downloads the GSE232853 GeoMx raw matrix, builds sample metadata, applies strict QC |
-| `code/06_spatial_GSE232853/06_00b_q3_norm_harmony_umap.py` | Upstream core (recovered): GeoMx Q3 normalisation + Harmony batch correction + PCA/UMAP |
-| `code/06_spatial_GSE232853/06_00c_dea_and_roi_tables.py` | Upstream core (recovered): two DEA variants + paired ROI table + LA_TAM grouping table |
-| `code/06_spatial_GSE232853/06_00d_gsea_ssgsea.py` | Upstream core (recovered): GSEA prerank + ssGSEA (MSigDB Hallmark 2020) |
-| `code/06_spatial_GSE232853/06_00e_target_gene_score_master.py` | Upstream core (recovered): MAFB target-gene scoring on CD68+ ROIs + spatial co-variation master table — see `code/06_spatial_GSE232853/README_recovered.md` |
+| `code/06_spatial_GSE232853/06_01_spatial_analysis.py` | |
+| `code/06_spatial_GSE232853/06_00a_download_and_build_meta.py` | 上游本体（找回件）：下载 GSE232853 GeoMx 原始矩阵、构建样本元数据、严格 QC |
+| `code/06_spatial_GSE232853/06_00b_q3_norm_harmony_umap.py` | 上游本体（找回件）：GeoMx Q3 归一化 + Harmony 批次校正 + PCA/UMAP |
+| `code/06_spatial_GSE232853/06_00c_dea_and_roi_tables.py` | 上游本体（找回件）：两套 DEA 口径 + 配对 ROI 表 + LA_TAM 分组表 |
+| `code/06_spatial_GSE232853/06_00d_gsea_ssgsea.py` | 上游本体（找回件）：GSEA prerank + ssGSEA（MSigDB Hallmark 2020） |
+| `code/06_spatial_GSE232853/06_00e_target_gene_score_master.py` | 上游本体（找回件）：CD68+ ROI 的 MAFB 靶基因打分 + 空间共变主表 —— 见 `code/06_spatial_GSE232853/README_recovered.md` |
 
-## Input data (shared, under `data/`)
+## 输入数据（公用，位于 `data/`）
 
 - `GSE232853_v2/expression_q3_lognorm.csv`
 - `GSE232853_v2/meta_filtered.csv`
@@ -36,24 +36,24 @@ section5_空间转录组验证/
 - `GSE232853_v2/fig5_GSEA_Hallmark_LATAM_Rich_vs_Poor_CD20.csv`
 - `GSE232853_v2/fig7_master_spatial_coevolution.csv`
 
-## How to run
+## 复现命令
 
 ```bash
-# No data root needed: config/paths.py resolves to data/ by default
+# 数据根无需设置：config/paths.py 默认解析到 data/
 cd DLBCL_HMGB1_HAVCR2_MAFB
-# whole pipeline
+# 全流程
 python run_all.py
-# this part only
+# 只跑本部分
 python run_all.py --stage 5
 ```
 
-## Environment status
+## 环境状态
 
-- Required: scanpy, anndata, gseapy, decoupler
-- Already available in the local `scRNA` environment: scanpy, anndata, gseapy
-- Still missing: decoupler
+- 需要：scanpy, anndata, gseapy, decoupler
+- 本机 `scRNA` 环境已具备：scanpy, anndata, gseapy
+- 尚缺：decoupler
 
-## Output figures
+## 产出图件
 
 - `figures/论文成图/Fig5.png`
 - `figures/论文成图/FigS5.png`

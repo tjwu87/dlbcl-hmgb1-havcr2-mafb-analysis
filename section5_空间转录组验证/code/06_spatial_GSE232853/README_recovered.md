@@ -1,54 +1,61 @@
-# code/06_spatial_GSE232853/ —— 上游本体脚本（找回件）
+# code/06_spatial_GSE232853/ — upstream core scripts (recovered)
 
-`06_01_spatial_analysis.py` 是**出图 + 统计**脚本，它读 11 张 CSV，但这些 CSV 的
-产出代码原先不在仓库里。下面 5 个脚本从 Biomni 平台的分析记录
-（`01_对话记录/14_空间转录组分析.md`）中找回，参数与阈值均为**原文照录**。
+`06_01_spatial_analysis.py` is a **plotting + statistics** script that reads 11 CSVs,
+but the code producing those CSVs was originally absent from the repository. The five
+scripts below were recovered from the Biomni platform's analysis records
+(`01_对话记录/14_空间转录组分析.md`); parameters and thresholds are transcribed
+**verbatim**.
 
-| 脚本 | 作用 | 产出 |
+| Script | Purpose | Output |
 | --- | --- | --- |
-| `06_00a_download_and_build_meta.py` | 下载 GEO 原始矩阵 + 解析列名建 meta + 严格 QC（剔除 6 个 Full ROI） | `meta_df.csv`、`meta_filtered.csv`、`expression_raw_filtered.csv` |
-| `06_00b_q3_norm_harmony_umap.py` | GeoMx Q3 归一化 + Harmony 批次校正 + PCA/UMAP | `expression_q3_lognorm.csv`、`Q3_normalization_stats.csv`、`task2_PCA_coordinates.csv`、`task2_UMAP_coordinates.csv`、`task2_highly_variable_genes.csv`、`GSE232853_adata_v2.h5ad` |
-| `06_00c_dea_and_roi_tables.py` | 差异表达（两套口径）+ 配对 ROI 表 + 分组表 | `fig2_wilcoxon_*.csv`、`fig3_DEA_CD68_scanpy.csv`、`task4_DEA_CD68_DLBCL_vs_Normal.csv`、`fig4_paired_ROI_16gene_LATAM.csv`、`fig4_correlation_stats.csv`、`fig5_DLBCL_LATAM_group_assignment.csv` |
-| `06_00d_gsea_ssgsea.py` | GSEA prerank + ssGSEA（均用 MSigDB Hallmark 2020） | `fig5_GSEA_Hallmark_*.csv`、`fig5_GSEA_ranking_CD20_DLBCL.csv`、`fig6_ssGSEA_Hallmark_CD20_DLBCL.csv` |
-| `06_00e_target_gene_score_master.py` | CD68+ ROI 的 MAFB 靶基因打分 + 空间共变主表 | `fig7_master_spatial_coevolution.csv` |
+| `06_00a_download_and_build_meta.py` | Download the GEO raw matrix + parse column names to build metadata + strict QC (drops 6 `Full ROI` samples) | `meta_df.csv`, `meta_filtered.csv`, `expression_raw_filtered.csv` |
+| `06_00b_q3_norm_harmony_umap.py` | GeoMx Q3 normalisation + Harmony batch correction + PCA/UMAP | `expression_q3_lognorm.csv`, `Q3_normalization_stats.csv`, `task2_PCA_coordinates.csv`, `task2_UMAP_coordinates.csv`, `task2_highly_variable_genes.csv`, `GSE232853_adata_v2.h5ad` |
+| `06_00c_dea_and_roi_tables.py` | Two DEA variants + paired ROI table + grouping table | `fig2_wilcoxon_*.csv`, `fig3_DEA_CD68_scanpy.csv`, `task4_DEA_CD68_DLBCL_vs_Normal.csv`, `fig4_paired_ROI_16gene_LATAM.csv`, `fig4_correlation_stats.csv`, `fig5_DLBCL_LATAM_group_assignment.csv` |
+| `06_00d_gsea_ssgsea.py` | GSEA prerank + ssGSEA (both with MSigDB Hallmark 2020) | `fig5_GSEA_Hallmark_*.csv`, `fig5_GSEA_ranking_CD20_DLBCL.csv`, `fig6_ssGSEA_Hallmark_CD20_DLBCL.csv` |
+| `06_00e_target_gene_score_master.py` | MAFB target-gene scoring on CD68+ ROIs + spatial co-variation master table | `fig7_master_spatial_coevolution.csv` |
 
-## 数据来源（GEO 公开，无需注册）
+## Data source (public on GEO, no registration)
 
 ```
 GSE232853_Processed_data_CD20_CD68_final.csv.gz
 ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE232nnn/GSE232853/suppl/
 ```
 
-16 560 基因 × 578 ROI 样本。同一张切片相邻 ROI 分别用 CD20 / CD68 抗体掩膜，
-因此每个 ROI 有 CD20+ 与 CD68+ 两个配对样本（572 个有效样本：CD20 253 + CD68 319）。
+16,560 genes × 578 ROI samples. Adjacent ROIs on the same slide are masked with CD20 /
+CD68 antibodies respectively, so each ROI yields a pair of CD20+ and CD68+ samples
+(572 valid samples: CD20 253 + CD68 319).
 
-## 关键参数（照 Biomni 原文）
+## Key parameters (transcribed from the Biomni records)
 
-| 步骤 | 参数 |
+| Step | Parameters |
 | --- | --- |
-| Q3 归一化 | `X / Q3_i * median(Q3)`，Q3 = 每样本非零基因 75 分位；再 `log1p` |
-| HVG / PCA | `n_top_genes=2000`（seurat）；`n_comps=50` |
+| Q3 normalisation | `X / Q3_i * median(Q3)`, with Q3 = 75th percentile of each sample's non-zero genes; then `log1p` |
+| HVG / PCA | `n_top_genes=2000` (seurat); `n_comps=50` |
 | Harmony | `run_harmony(..., 'Slide_ID', max_iter_harmony=20, random_state=42)` |
 | UMAP | `n_neighbors=15, n_pcs=30, min_dist=0.35, spread=1.2, random_state=42` |
-| DEA | `mannwhitneyu` 逐基因 + BH 校正；另一套为 `sc.tl.rank_genes_groups(method='wilcoxon')` |
-| LA_TAM_Score | 16 基因（`FTL` 不在 panel 故剔除）的均值 |
-| Rich / Poor | 在 DLBCL 样本内按 LA_TAM_Score 中位数二分（各 57 个 ROI） |
+| DEA | gene-wise `mannwhitneyu` + BH correction; the other variant is `sc.tl.rank_genes_groups(method='wilcoxon')` |
+| LA_TAM_Score | mean of 16 genes (`FTL` is absent from the panel and was dropped) |
+| Rich / Poor | median split of LA_TAM_Score within DLBCL samples (57 ROIs each) |
 | GSEA prerank | `MSigDB_Hallmark_2020, min_size=10, max_size=500, permutation_num=1000, seed=42` |
-| ssGSEA | `sample_norm_method='rank', scale=True`，取结果矩阵的 `NES` |
+| ssGSEA | `sample_norm_method='rank', scale=True`, taking the `NES` from the result matrix |
 
-## 踩坑记录（照原文，读者照做可避）
+## Pitfalls (from the original records — following them avoids the same errors)
 
-1. **Harmony 输出的形状**：`ho.Z_corr` 在容器里返回的已经是 `(样本, PC)`，
-   直接用即可，**不要 `.T`**。早期误转置导致形状错乱、后续报错。
-   喂给 `harmonypy` 前要把 PCA 矩阵转成 C 连续（`np.ascontiguousarray`）。
-2. **`sc.get.rank_genes_groups_df` 的列名**：返回列需手动重命名为
-   `['gene','scores','logfoldchanges','pvals','pvals_adj','pts','pts_rest']`。
-3. **ssGSEA 输入方向**：gene × sample（即表达矩阵要转置），输出 `res2d`
-   需 `pivot(index='Name', columns='Term', values='NES')` 才是 样本 × 通路。
-4. **原文中的输出目录有两个**（`GSE232853/` 与 `GSE232853_v2/`）。本仓库统一到
-   `GSE232853_v2/`（即论文实际使用、也是数据根里现存的那一份）。
+1. **Harmony output shape**: inside the container `ho.Z_corr` already comes back as
+   `(samples, PCs)`; use it directly, **do not `.T` it**. An early transposition caused a
+   shape mismatch and downstream errors. Also convert the PCA matrix to C-contiguous
+   (`np.ascontiguousarray`) before handing it to `harmonypy`.
+2. **`sc.get.rank_genes_groups_df` column names**: the returned columns must be renamed
+   manually to `['gene','scores','logfoldchanges','pvals','pvals_adj','pts','pts_rest']`.
+3. **ssGSEA input orientation**: gene × sample (i.e. transpose the expression matrix), and
+   the `res2d` output needs
+   `pivot(index='Name', columns='Term', values='NES')` to become samples × pathways.
+4. **The original records use two output directories** (`GSE232853/` and
+   `GSE232853_v2/`). This repository standardises on `GSE232853_v2/` (the one actually
+   used in the paper and the one present in the data root).
 
-## 环境
+## Environment
 
-`scanpy`、`anndata`、`harmonypy`、`gseapy`、`seaborn`、`pandas`、`numpy`、`scipy`、`statsmodels`。
-`gseapy` 首次运行会自动下载 MSigDB Hallmark 基因集（需要网络）。
+`scanpy`, `anndata`, `harmonypy`, `gseapy`, `seaborn`, `pandas`, `numpy`, `scipy`,
+`statsmodels`. On its first run `gseapy` downloads the MSigDB Hallmark gene sets
+(network access required).

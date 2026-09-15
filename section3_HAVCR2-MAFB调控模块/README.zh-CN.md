@@ -1,33 +1,33 @@
-# HAVCR2–MAFB regulatory module
+# HAVCR2-MAFB调控模块
 
-> **Paper mapping**: Results 3 — HAVCR2–MAFB regulatory module  
-> **Figures**: Figure 3 (a–g), Figure S3, Figure S9
+> **论文对应**：Results 3 — HAVCR2–MAFB 调控模块  
+> **图件**：Figure 3（a–g）、Figure S3、Figure S9
 
-## What this part does
+## 分析内容
 
-pySCENIC regulon activity (AUCell) → RSS receptor prioritisation → pseudotime correlation → MAFB target-gene enrichment
+pySCENIC 调控子活性（AUCell）→ RSS 受体优先级排序 → 伪时序相关 → MAFB 靶基因富集
 
-## Layout
+## 目录
 
 ```
 section3_HAVCR2-MAFB调控模块/
-├── code/            analysis scripts (see below)
-├── data/            intermediates specific to this part (for comparison / reuse)
-├── figures/         paper figures and panels
+├── code/            分析脚本（见下）
+├── data/            本部分专有的中间产物（可比对/复用）
+├── figures/         论文图件与面板
 └── README.md
 ```
 
-## Scripts
+## 脚本清单
 
-| Script | Notes |
+| 脚本 | 说明 |
 | --- | --- |
-| `code/04_pySCENIC/04_01_pyscenic_downstream_stats_figures.py` |  |
-| `code/04_pySCENIC/04_00a_setup_scenic_db.sh` | Upstream core (recovered): downloads the pySCENIC reference databases (TF list / hg38 rankings / motif annotations); the file header carries the three official CLI commands |
-| `code/04_pySCENIC/04_00b_build_loom.py` | Upstream core (recovered): builds the loom input (327 cells × 9,118 genes) |
-| `code/04_pySCENIC/04_00c_pyscenic_run_and_export.py` | Upstream core (recovered): GRNBoost2 → RcisTarget (NES ≥ 3.0) → AUCell, plus export of the `data_*.csv` files consumed downstream — see `code/04_pySCENIC/README_recovered.md` |
-| `code/10_figures/FigS8/10_12_figS3_S9_receptor_prioritization.py` |  |
+| `code/04_pySCENIC/04_01_pyscenic_downstream_stats_figures.py` | |
+| `code/04_pySCENIC/04_00a_setup_scenic_db.sh` | 上游本体（找回件）：下载 pySCENIC 参考数据库（TF 列表 / hg38 rankings / motif 注释），文件头含官方 CLI 三步命令 |
+| `code/04_pySCENIC/04_00b_build_loom.py` | 上游本体（找回件）：构建 loom 输入（327 细胞 × 9118 基因） |
+| `code/04_pySCENIC/04_00c_pyscenic_run_and_export.py` | 上游本体（找回件）：GRNBoost2 → RcisTarget(NES≥3.0) → AUCell，并导出 `data_*.csv` —— 见 `code/04_pySCENIC/README_recovered.md` |
+| `code/10_figures/FigS8/10_12_figS3_S9_receptor_prioritization.py` | |
 
-## Input data (shared, under `data/`)
+## 输入数据（公用，位于 `data/`）
 
 - `GSE182434/scenic/data_AUC_matrix.csv`
 - `GSE182434/scenic/data_RSS_scores.csv`
@@ -35,24 +35,24 @@ section3_HAVCR2-MAFB调控模块/
 - `GSE182434/scenic/data_core_TF_AUC_and_receptor_expression.csv`
 - `GSE182434/scenic/MAFB_gseapy_*.csv`
 
-## How to run
+## 复现命令
 
 ```bash
-# No data root needed: config/paths.py resolves to data/ by default
+# 数据根无需设置：config/paths.py 默认解析到 data/
 cd DLBCL_HMGB1_HAVCR2_MAFB
-# whole pipeline
+# 全流程
 python run_all.py
-# this part only
+# 只跑本部分
 python run_all.py --stage 3
 ```
 
-## Environment status
+## 环境状态
 
-- Required: pyscenic, ctxcore, omnipath, decoupler
-- Already available in the local `scRNA` environment: (none)
-- Still missing: pyscenic, ctxcore, omnipath, decoupler
+- 需要：pyscenic, ctxcore, omnipath, decoupler
+- 本机 `scRNA` 环境已具备：（无）
+- 尚缺：pyscenic, ctxcore, omnipath, decoupler
 
-## Output figures
+## 产出图件
 
 - `figures/论文成图/Fig3.png`
 - `figures/论文成图/FigS3.png`

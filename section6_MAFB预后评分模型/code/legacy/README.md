@@ -1,14 +1,16 @@
-# code/legacy/ —— 归档件（不参与 run_all.py 流程）
+# code/legacy/ — archived items (not part of the `run_all.py` pipeline)
 
-这两个文件是作者当年的**原始母脚本**，从 `Tcell/` 按原样收录（仅追加了一段
-"归档收录说明"头 + 把服务器绝对路径包进 `translate_path()`，正文逻辑未改）。
+These two files are the authors' **original master scripts**, taken verbatim from
+`Tcell/` (only a "archive inclusion note" header was prepended and server absolute
+paths were wrapped in `translate_path()`; the body logic is unchanged).
 
-## 为什么收录
+## Why they are included
 
-`section6` 的 `07_01_prognosis_main.R` 会**读**下面这些表，但 `07_01`~`07_05`
-只读不产 —— 仓库原先没有任何脚本能产出它们。这两个文件就是产出者：
+`section6`'s `07_01_prognosis_main.R` **reads** the tables below, but `07_01`–`07_05`
+only read and never write — the repository previously had no script that could produce
+them. These two files are the producers:
 
-| 中间表 | `yuhou.R`（25 基因版） | `yuhou2.R`（23 基因版） |
+| Intermediate table | `yuhou.R` (25-gene version) | `yuhou2.R` (23-gene version) |
 |---|---|---|
 | `LASSO_prognostic_formula.csv` | L289 | L80 |
 | `GSE10846_risk_scores.csv` | L304 | L96 |
@@ -16,64 +18,71 @@
 | `Calibration_data_1_3_5yr.csv` | **L1571** | L528 |
 | `Immune_infiltration_scores.csv` | **L1731** | — |
 | `Immune_RiskScore_correlations.csv` | **L1734** | — |
-| `All_cohorts_risk_scores.csv`（5 队列） | **L3356** | — |
-| `MultiCohort_KM_statistics.csv` | **L3404**（5 队列） | L1995 起（6 队列） |
+| `All_cohorts_risk_scores.csv` (5 cohorts) | **L3356** | — |
+| `MultiCohort_KM_statistics.csv` | **L3404** (5 cohorts) | from L1995 (6 cohorts) |
 | `TCGA_DLBC_risk_scores.csv` | **L3414** | — |
 | `GSE87371/11318/181063_risk_scores.csv` | **L3421/3426/3431** | — |
 
-> **判定依据**：数据根 `DLBCL_prognosis/tables/` 里的
-> `Cox_univariable_multivariable_results.csv` 列名为
-> `Variable,label,type,HR,CI_low,CI_high,pval,pval_str,hr_str`，
-> 与 `yuhou.R` L957 的 `select(Variable, label, type=section, HR, CI_low, CI_high,
-> pval, pval_str, hr_str)` **逐字一致**；`All_cohorts_risk_scores.csv` 的 5 个队列
-> （412/221/199/882/45）在 `yuhou.R` L3350-3351 明确列出。
-> 文件顶部的 `LASSO_prognostic_formula.csv` 含 15 个入选基因，全部落在
-> `07_02_lasso_cv_curves.R` 的 23 基因候选集内。
+> **How this was established**: in the data root, `DLBCL_prognosis/tables/`
+> `Cox_univariable_multivariable_results.csv` has the columns
+> `Variable,label,type,HR,CI_low,CI_high,pval,pval_str,hr_str`, which matches
+> `yuhou.R` L957's `select(Variable, label, type=section, HR, CI_low, CI_high,
+> pval, pval_str, hr_str)` **character for character**; the 5 cohorts in
+> `All_cohorts_risk_scores.csv` (412/221/199/882/45) are listed explicitly in
+> `yuhou.R` L3350-3351. `LASSO_prognostic_formula.csv` contains 15 selected genes,
+> all of which lie inside the 23-gene candidate set of `07_02_lasso_cv_curves.R`.
 
-## 两者的关系
+## Relationship between the two
 
 | | `yuhou.R` | `yuhou2.R` |
 |---|---|---|
-| 基因集 | 25 个（HMGB1+HAVCR2+23） | **23 个**（去掉 HMGB1/HAVCR2）＝ `07_02` 的候选集 |
-| 输出目录 | `/mnt/results/DLBCL_prognosis/` → `data/DLBCL_prognosis/` | `/mnt/results/DLBCL_prognosis_v2/` → 同上（LEGACY_MAP 归并） |
-| 队列 | **5 个**（GSE10846/87371/11318/181063/TCGA）＝ 论文所用 | 6 个（多一个 **NCICCR-DLBCL**） |
-| 与论文关系 | **产出数据根里现有的那批表** | 平行支线；LASSO 部分已由 `07_02` 覆盖 |
+| Gene set | 25 (HMGB1 + HAVCR2 + 23) | **23** (without HMGB1/HAVCR2) = the candidate set of `07_02` |
+| Output directory | `/mnt/results/DLBCL_prognosis/` → `data/DLBCL_prognosis/` | `/mnt/results/DLBCL_prognosis_v2/` → same (merged by LEGACY_MAP) |
+| Cohorts | **5** (GSE10846/87371/11318/181063/TCGA) = those used in the paper | 6 (one extra: **NCICCR-DLBCL**) |
+| Relation to the paper | **Produces the tables actually present in the data root** | Parallel branch; its LASSO part is already covered by `07_02` |
 
-## 可以跳过 / 非必需的段落（行号＝原文行号）
+## Blocks that can be skipped / are not required (line numbers = original line numbers)
 
 `yuhou.R`
-- L225-268 —— 探索：改用全 420 样本、试 elastic net(α=0.5)、试纯 LASSO
-- L374-442 / L455-541 / L542-720 —— CV 曲线与系数轨迹的**三版重绘尝试**，后者取代前者
-  （对应图现在由 `07_01` 的 `A0*` 产出）
-- L2064-2205 —— 变量/对象的一次性 reload 调试段
-- L2897-2955 —— GSE87371 方向性排查（**但 L2992 的 `cens_os` 方向修正是必需的，别跳**）
+- L225-268 — exploration: switching to all 420 samples, trying elastic net (α=0.5), trying plain LASSO
+- L374-442 / L455-541 / L542-720 — **three successive redraw attempts** of the CV curve and coefficient trajectory; the later ones supersede the earlier
+  (the corresponding figures are now produced by `07_01`'s `A0*`)
+- L2064-2205 — one-off variable/object reload debugging block
+- L2897-2955 — GSE87371 directionality investigation (**but the `cens_os` direction fix at L2992 is required — do not skip it**)
 
 `yuhou2.R`
-- L685-1150 —— **NCICCR-DLBCL** 队列（论文未使用；含 GDC 下载与两套缩放方案对比）
-- L1538-1690 —— TCGA 走 TCGAbiolinks 的实现（`yuhou.R` 走 GDC API，二选一即可）
-- L2020-2394 —— 6 队列 KM 的多轮配色/排布重绘
+- L685-1150 — the **NCICCR-DLBCL** cohort (not used in the paper; includes the GDC download and a comparison of two scaling schemes)
+- L1538-1690 — a TCGA implementation via TCGAbiolinks (`yuhou.R` uses the GDC API; either one is enough)
+- L2020-2394 — repeated recolouring/relayout redraws of the 6-cohort KM plot
 
-## 运行提示
+## Running notes
 
-- ⚠️ **这两个文件是 R + 内嵌 Python 的混合工作文件**：正文里夹着
-  `import requests` / `pd.read_csv(...)` 等 Python 片段（`yuhou.R` 约 L2371 起、
-  `yuhou2.R` 约 L681 起是 TCGA/GDC 交互）。因此**整文件无法直接 `source()` 运行**
-  ——用 `Rscript -e 'parse("<file>")'` 会在 Python 段报错（**原文即如此，不是收录时改坏的**）。
-  当年应是分块手动执行。收录目的是**保留产出逻辑与参数**，不是提供一键入口。
-- 它们**依赖上游产物**：`GSE10846_series_matrix.txt.gz`（GEO 可下，见 `data/README.md`）、
-  `LASSO_prognostic_formula.csv` 等；不是"下载仓库就能直接跑"的入口。
-- 原文用 `/workspace` 作暂存目录，已映射到 `<数据根>/external/workspace`，
-  首次运行前建议先建好该目录。
-- 依赖 R 包：`GEOquery`、`Biobase`、`hgu133plus2.db`、`illuminaHumanv4.db`、
-  `glmnet`、`survival`、`survminer`、`rms`、`ggplot2`、`patchwork`、`cowplot`、
-  `dplyr`、`stringr`、`httr`/`jsonlite`（TCGA GDC API）；`yuhou2.R` 另需
-  `reticulate` 或手工分块跑 Python 段。
+- ⚠️ **These two files are hybrid R + embedded Python working files**: the body contains
+  Python fragments such as `import requests` / `pd.read_csv(...)` (`yuhou.R` from about
+  L2371, `yuhou2.R` from about L681 handle TCGA/GDC interaction). The file therefore
+  **cannot be `source()`d as a whole** — `Rscript -e 'parse("<file>")'` errors at the
+  Python blocks (**this is true of the original, not something introduced by archiving**).
+  It was evidently executed manually, block by block. The purpose of including them is to
+  **preserve the producing logic and parameters**, not to provide a one-click entry point.
+- They **depend on upstream products**: `GSE10846_series_matrix.txt.gz` (publicly
+  downloadable from GEO, see `data/README.md`), `LASSO_prognostic_formula.csv`, and so on.
+  They are not a "download the repository and run" entry point.
+- The original used `/workspace` as a staging directory; this maps to
+  `<data root>/external/workspace`, so it is worth creating that directory before the
+  first run.
+- Required R packages: `GEOquery`, `Biobase`, `hgu133plus2.db`, `illuminaHumanv4.db`,
+  `glmnet`, `survival`, `survminer`, `rms`, `ggplot2`, `patchwork`, `cowplot`,
+  `dplyr`, `stringr`, `httr`/`jsonlite` (TCGA GDC API); `yuhou2.R` additionally needs
+  `reticulate`, or manual block-by-block execution of its Python sections.
 
-## 收录时的改动（可审计）
+## Changes made when archiving (auditable)
 
-相对 `Tcell/` 下的原文，归档件**只**多了两处改动，已用行级 diff 逐行核对：
+Relative to the originals under `Tcell/`, the archived copies differ in **only** two
+ways, verified line by line with a level diff:
 
-1. 文件头追加了一段「归档收录说明」注释（`yuhou.R` 29 行 / `yuhou2.R` 25 行）；
-2. 把服务器绝对路径字面量包进 `translate_path()`（`yuhou.R` 80 处 / `yuhou2.R` 33 处）。
+1. an "archive inclusion note" comment block was prepended to the file header
+   (29 lines for `yuhou.R`, 25 lines for `yuhou2.R`);
+2. server absolute path literals were wrapped in `translate_path()`
+   (80 occurrences in `yuhou.R`, 33 in `yuhou2.R`).
 
-除此之外**没有改动任何一行正文逻辑**。
+Other than that, **not a single line of body logic was changed**.

@@ -1,6 +1,6 @@
 # MANIFEST（SHA256）
 
-共 176 个文件。
+共 196 个文件。
 
 | 文件 | SHA256 |
 |---|---|
@@ -8,8 +8,10 @@
 | 00_download/download_all.py | `46e3fe14fab2e922000b7333fcf77a0e62cea9b09dc727d495bfadbd874525bc` |
 | CITATION.cff | `d2d853ba518d62328471d500b42d15c3223bc9f93d85ddfcb74452d15e4ab94e` |
 | LICENSE | `c8e76ddc3530606fcd0a1e9d2a19a183a71f37cb8c5194cddb561ed558b65028` |
-| README.md | `f0becf8b94e5742f9ddd95e6a75dd37671806c3abfeae1a53bbf3b63c274be29` |
-| ZENODO.md | `375c01363f7013e10830d2fca071a9cd7fe6e1f16577edfc600a51572e3ee563` |
+| README.md | `24871823a59cb922aa1ad94e0b9cc1065d24f75718d13372145da8485d2410aa` |
+| README.zh-CN.md | `f0becf8b94e5742f9ddd95e6a75dd37671806c3abfeae1a53bbf3b63c274be29` |
+| ZENODO.md | `9a1080a0bc54275b7f9e93d6f838e45d2759982e6a9ba083495eb2e1a3b85a88` |
+| ZENODO.zh-CN.md | `375c01363f7013e10830d2fca071a9cd7fe6e1f16577edfc600a51572e3ee563` |
 | config/__init__.py | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
 | config/figure_layout.yaml | `eabb04612ed040a7e245f66a6c8f1ca40af3ad01e4fcc5399dd4e2de7f15ba85` |
 | config/params.yaml | `55363cd2601cb83ef7ac6ef5508bd8b5ed37ef5a7d3f951cef17009f986ead33` |
@@ -19,11 +21,17 @@
 | config/plot_style.py | `0e80f6289fdd7333dade68209abd5d15636c5b8ff13a25e55e3bef7bf38da85c` |
 | config/retrofit.R | `35ba8b658566bbab148b3bff02fef56a1072b897057b6020d15b3b78f1557aad` |
 | config/retrofit.py | `5fe9793c948795d1a295ce894cf979f6c8a91559d5caf58d2a5cd9db146573de` |
-| data/README.md | `eb2298667ec0ecbe38b302e6f33e3d3566c1d3eef32af0714d8a8968e081e548` |
+| data/README.md | `a89c5324efbc237d2dd7d7fb84a59eb526f2e1f4bd72db22d553c13925cd1a40` |
+| data/README.zh-CN.md | `eb2298667ec0ecbe38b302e6f33e3d3566c1d3eef32af0714d8a8968e081e548` |
+| docs/README.en.md | `070814f85a1dcbf6e07d6b918042ba214dd5dc5161e892814ab893411b6a5650` |
 | docs/code_version_audit.md | `4d281f07cb3fec0d0887385407cd26971c6b83cfdce59c646658ecbc42ce25c1` |
 | docs/figure_code_map_final.md | `49a2dd06554ca54503cc06cf516ccf96a5732f839ce436a372650be0b6ff6d09` |
+| docs/figure_panel_map.en.md | `54429d98e86a7eff0dd21dd08b032efcef406eb4400dfdb795daa469f218ace2` |
 | docs/figure_panel_map.md | `bc16b7d27270aadf27bff252f4196f725bb2172b4636c107a869b7b82688f949` |
+| docs/panel_mapping_final.en.md | `9ffeaba92eae5006826cc404723d2961ca5e082c1f0594d6457cdc2195af6ef9` |
 | docs/panel_mapping_final.md | `be5790f9c2740f147ccea137c22f31a3bfdd3e14593524df05ac8683630b1a6a` |
+| docs/reproduction_status_report_20260913.en.md | `27df866c875b153f8fa642557efea67e2b06e2c225bb5ee72c1f49ea183b5b9f` |
+| docs/复现指南_fig1_fig3.en.md | `e30039549c8bd819dc7c395c10eeea8cb9cb947469ebe25384daf7658630de02` |
 | docs/复现指南_fig1_fig3.md | `01e8e13a34010c8ee6eaa186f45d7dda26a3f6b8b4e860cf527bb3de7df91167` |
 | docs/复现状态报告_20260913.md | `26c81fa1db1b45fef0a7337e0c38050e58fc6c9415fe83a8b9abfa7b388a1950` |
 | environment.yml | `6d86f0301ae52ada21787e18782c866542ea56a3802c2a26b7c3699747b9d2c5` |
@@ -32,17 +40,21 @@
 | install_R_packages.R | `896d99e6683885b6dadc8aba226554adfbdcd311e31367a30bc21ee3995426f3` |
 | requirements.txt | `0384d1cd0874afb0089dfc4d7868343c40368f7dabb05ccccd95311ab3e9e42e` |
 | run_all.py | `06b3b4d71fdd6f97db613d88e982f4bb04f96f486afbd5605c2a3bca055b12e4` |
-| section1_恶性B细胞与髓系通讯/README.md | `463aedc4e96aac0ed3dd2e185f5aa2a6eb7703039a80290716d05cde04711659` |
+| section1_恶性B细胞与髓系通讯/README.md | `0dd5aead6faf28b78782b7e14c7bb72600b1c9f44833c31904765263c51a469b` |
+| section1_恶性B细胞与髓系通讯/README.zh-CN.md | `e01c36599053f11c9fe8a2ff126fab9bf609e9a646acf75c57053d1ac99dc05b` |
+| section1_恶性B细胞与髓系通讯/code/01_scRNA_GSE182434/01_00_cnv_malignancy_classification.py | `64f97b90adeee034bcddb01d40fefb031efe5233c9b16d735cab6596c8025c73` |
 | section1_恶性B细胞与髓系通讯/code/01_scRNA_GSE182434/01_01_qc_integration.py | `fc54e761ba31331544a4c21b333ba14cd72e08bb1c6a78f0eae362458be52697` |
 | section1_恶性B细胞与髓系通讯/code/01_scRNA_GSE182434/01_03_annotation_concordance.py | `cb7146dac852b856aa970b83b0f09d6771864e86575b2d1d0cccf4d99dabb0c2` |
 | section1_恶性B细胞与髓系通讯/code/01_scRNA_GSE182434/01_04_supplementary_panels.py | `c3dd6a129d82721b9f773e547e7b9ff36be65e989ee1f20f060a564ff70629e4` |
 | section1_恶性B细胞与髓系通讯/code/02_cellcomm_LIANA/02_00_liana_run.py | `8bcb94b7d5f50e7d420bbfaf57b8c75df70566148fc02aa35dc51469eb3f73ca` |
 | section1_恶性B细胞与髓系通讯/code/02_cellcomm_LIANA/02_00a_liana_rank_aggregate_14celltypes.py | `073a51c4c9f9f0669b9756a2c961c757739e7c28067fc5691f31e0db9eafe743` |
 | section1_恶性B细胞与髓系通讯/code/02_cellcomm_LIANA/02_00b_liana_rank_aggregate_13subtypes.py | `6d6e5adda81aa66ffdb55e639d7cafc9a1f8293667d493e97f9805c55f3b0fe5` |
+| section1_恶性B细胞与髓系通讯/code/02_cellcomm_LIANA/02_00c_volcano_malignant_vs_normal.py | `70b9c06692c349dcc47f63ca834cab521f51b508d27efc59ff88f7ac4061d98e` |
 | section1_恶性B细胞与髓系通讯/code/02_cellcomm_LIANA/02_01_fig1de_aggregate_circle_heatmap.py | `880db2c2a86566bf9cdbb965e127fb71c2e2538e65f4f99b4bd5ac9f500482e6` |
 | section1_恶性B细胞与髓系通讯/code/02_cellcomm_LIANA/02_02_liana_figures_13subtypes_volcano.py | `88a31098c588d59ce771356d61fd2f86e960b5e51a67ab59f7a42d909b71c848` |
 | section1_恶性B细胞与髓系通讯/code/02_cellcomm_LIANA/02_03_liana_supplementary.py | `c4e0f86ca4f15176b6fef24f2a0553fdce10e402a3b374f8b6c0e251dd8fb0a1` |
-| section1_恶性B细胞与髓系通讯/code/02_cellcomm_LIANA/README_recovered.md | `18b6a46810f5e0a1d2b7339aca5aec171556cdcf11128f9a002ddd2c7b597646` |
+| section1_恶性B细胞与髓系通讯/code/02_cellcomm_LIANA/README_recovered.md | `d7fe607d395af489e6eff0e7910a62f1b273e3fbd76b82d5bb64875f9752f2f3` |
+| section1_恶性B细胞与髓系通讯/code/02_cellcomm_LIANA/README_recovered.zh-CN.md | `d6f31629757d50759ae2b1905ce1755607f60af55f74b6cf5d2aa3d3d88f0620` |
 | section1_恶性B细胞与髓系通讯/code/10_figures/10_00_umap_cnv_myeloid_panels.py | `a83ca72a81277b9e48796bd08d229574bec75551396a266f52ea47a3cad01f39` |
 | section1_恶性B细胞与髓系通讯/code/config/__init__.py | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
 | section1_恶性B细胞与髓系通讯/code/config/figure_layout.yaml | `eabb04612ed040a7e245f66a6c8f1ca40af3ad01e4fcc5399dd4e2de7f15ba85` |
@@ -53,7 +65,8 @@
 | section1_恶性B细胞与髓系通讯/code/config/plot_style.py | `0e80f6289fdd7333dade68209abd5d15636c5b8ff13a25e55e3bef7bf38da85c` |
 | section1_恶性B细胞与髓系通讯/code/config/retrofit.R | `35ba8b658566bbab148b3bff02fef56a1072b897057b6020d15b3b78f1557aad` |
 | section1_恶性B细胞与髓系通讯/code/config/retrofit.py | `5fe9793c948795d1a295ce894cf979f6c8a91559d5caf58d2a5cd9db146573de` |
-| section2_髓系轨迹与LA_TAM终末态/README.md | `b8dd9dbde960edd1eddf055821bb7c732663bb7efe2cb3ad866de63996db7c61` |
+| section2_髓系轨迹与LA_TAM终末态/README.md | `3c0b6ecfa23c29bab5861ba90fee0a1a1bd60b88065b2cdf0f18e9c2007cca71` |
+| section2_髓系轨迹与LA_TAM终末态/README.zh-CN.md | `b8dd9dbde960edd1eddf055821bb7c732663bb7efe2cb3ad866de63996db7c61` |
 | section2_髓系轨迹与LA_TAM终末态/code/01_scRNA_GSE182434/01_02_myeloid_subtyping_and_paga_trajectory.py | `f0977624c8f1f987a3c65a19c5549f5ab7f75a583677acdd650aaee4213322ba` |
 | section2_髓系轨迹与LA_TAM终末态/code/01_scRNA_GSE182434/01_05_fig1b_marker_dotplot.py | `f06a7d3ec1441f2bc15289a52f28c7e405916f675085952bb9e255da512edfee` |
 | section2_髓系轨迹与LA_TAM终末态/code/01_scRNA_GSE182434/01_06_mono_mac_5subtypes.py | `58e26093a3c18f7ed295e6712bcb465f5424c853390b087f25b512e22f67e888` |
@@ -70,12 +83,14 @@
 | section2_髓系轨迹与LA_TAM终末态/code/config/plot_style.py | `0e80f6289fdd7333dade68209abd5d15636c5b8ff13a25e55e3bef7bf38da85c` |
 | section2_髓系轨迹与LA_TAM终末态/code/config/retrofit.R | `35ba8b658566bbab148b3bff02fef56a1072b897057b6020d15b3b78f1557aad` |
 | section2_髓系轨迹与LA_TAM终末态/code/config/retrofit.py | `5fe9793c948795d1a295ce894cf979f6c8a91559d5caf58d2a5cd9db146573de` |
-| section3_HAVCR2-MAFB调控模块/README.md | `09a0360321dcfef9dc335d13d920c18a6ace7b41ddf923f9c2bcb53f9faf8b13` |
+| section3_HAVCR2-MAFB调控模块/README.md | `2394e1533a880b3a5f537e35693435ef02398a8c7c479fc84877570bdfb352c7` |
+| section3_HAVCR2-MAFB调控模块/README.zh-CN.md | `09a0360321dcfef9dc335d13d920c18a6ace7b41ddf923f9c2bcb53f9faf8b13` |
 | section3_HAVCR2-MAFB调控模块/code/04_pySCENIC/04_00a_setup_scenic_db.sh | `885231e94f3982cce57a91225cbd7a61d56d615759d3d0b09b4ed79639f289c6` |
 | section3_HAVCR2-MAFB调控模块/code/04_pySCENIC/04_00b_build_loom.py | `fa5663d9c5533cc720c615bd0143c9d0627f3cfb7fad22084a9f411e030de2bd` |
 | section3_HAVCR2-MAFB调控模块/code/04_pySCENIC/04_00c_pyscenic_run_and_export.py | `4496e0b344a0433ce819c063bd2ee4eeb6c22eca228215054af95cae006f6145` |
 | section3_HAVCR2-MAFB调控模块/code/04_pySCENIC/04_01_pyscenic_downstream_stats_figures.py | `2e4af89238717deccf31018c88131f6e087673fb8e8a0bb638e24b00454425d7` |
-| section3_HAVCR2-MAFB调控模块/code/04_pySCENIC/README_recovered.md | `ce6ff09aaf8447bd8759d49862f9660388912d6a075949d46ce9e299e4cb879a` |
+| section3_HAVCR2-MAFB调控模块/code/04_pySCENIC/README_recovered.md | `afbca30fce862f9b08c30a98d2a13a06f7c70e06673d6297727e6f778ecc4ab2` |
+| section3_HAVCR2-MAFB调控模块/code/04_pySCENIC/README_recovered.zh-CN.md | `ce6ff09aaf8447bd8759d49862f9660388912d6a075949d46ce9e299e4cb879a` |
 | section3_HAVCR2-MAFB调控模块/code/10_figures/FigS8/10_12_figS3_S9_receptor_prioritization.py | `b5412d4d36285c1022d8d65cf9c5c63f7d9945f3c797b86d3fc16bf9eab22c17` |
 | section3_HAVCR2-MAFB调控模块/code/config/__init__.py | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
 | section3_HAVCR2-MAFB调控模块/code/config/figure_layout.yaml | `eabb04612ed040a7e245f66a6c8f1ca40af3ad01e4fcc5399dd4e2de7f15ba85` |
@@ -86,7 +101,8 @@
 | section3_HAVCR2-MAFB调控模块/code/config/plot_style.py | `0e80f6289fdd7333dade68209abd5d15636c5b8ff13a25e55e3bef7bf38da85c` |
 | section3_HAVCR2-MAFB调控模块/code/config/retrofit.R | `35ba8b658566bbab148b3bff02fef56a1072b897057b6020d15b3b78f1557aad` |
 | section3_HAVCR2-MAFB调控模块/code/config/retrofit.py | `5fe9793c948795d1a295ce894cf979f6c8a91559d5caf58d2a5cd9db146573de` |
-| section4_MAFB计算机扰动/README.md | `180b9d8ac25f683bb4b1a1f2dba37513ed7d7452850e4dfcc60222d03806b456` |
+| section4_MAFB计算机扰动/README.md | `0c528d3355c27b18a8e33d9076186a85d39c7a008bf833481abea2d13e42fa61` |
+| section4_MAFB计算机扰动/README.zh-CN.md | `180b9d8ac25f683bb4b1a1f2dba37513ed7d7452850e4dfcc60222d03806b456` |
 | section4_MAFB计算机扰动/code/05_CellOracle/05_90_reproduce_figures_local.py | `1ac06eb0c495fd65ff9fb53ff7420462e4fac9724aa39af0d4fb526e16662c46` |
 | section4_MAFB计算机扰动/code/05_CellOracle/05_91_grn_edge_sensitivity.py | `2bf0745e608a6e331855f56ae4d63c01492d0219788f86500647aee6afc9c9e1` |
 | section4_MAFB计算机扰动/code/05_CellOracle/step00A_env.py | `e4353802258b984a258907bffd21e2338ae06370c67a3f77e7b67b512523e9ef` |
@@ -122,14 +138,16 @@
 | section4_MAFB计算机扰动/code/config/plot_style.py | `0e80f6289fdd7333dade68209abd5d15636c5b8ff13a25e55e3bef7bf38da85c` |
 | section4_MAFB计算机扰动/code/config/retrofit.R | `35ba8b658566bbab148b3bff02fef56a1072b897057b6020d15b3b78f1557aad` |
 | section4_MAFB计算机扰动/code/config/retrofit.py | `5fe9793c948795d1a295ce894cf979f6c8a91559d5caf58d2a5cd9db146573de` |
-| section5_空间转录组验证/README.md | `4fd29345dfa6f7674ec9363a227abafa179dab4fe2426225b9dd789df504b4b1` |
+| section5_空间转录组验证/README.md | `7c1820b40aa53df72b0a1449df6b77341c91e0b8c3a7a408664f13c012d7ecdc` |
+| section5_空间转录组验证/README.zh-CN.md | `4fd29345dfa6f7674ec9363a227abafa179dab4fe2426225b9dd789df504b4b1` |
 | section5_空间转录组验证/code/06_spatial_GSE232853/06_00a_download_and_build_meta.py | `c46e90ba839ee607afe71b64f545b88c6557aa521102cd3780e2525637cc58ee` |
 | section5_空间转录组验证/code/06_spatial_GSE232853/06_00b_q3_norm_harmony_umap.py | `c30504eb5cb58382d1342f04f11e5d5ce85ccdb19816fd2852e1ef74858eb288` |
 | section5_空间转录组验证/code/06_spatial_GSE232853/06_00c_dea_and_roi_tables.py | `655c06a9f6f4a19dcd44e1c2c240f66eb2d24388e89fa48495be14d591994c6b` |
 | section5_空间转录组验证/code/06_spatial_GSE232853/06_00d_gsea_ssgsea.py | `006f353278e0eb7848937bcb6ead46b22b3257edb5d68ffaea232a029f7eeaa1` |
 | section5_空间转录组验证/code/06_spatial_GSE232853/06_00e_target_gene_score_master.py | `84edd3f7a2b1378633f4f93c58e4dfba99c7138bd9c0c01fb7453be4f9f21ad3` |
 | section5_空间转录组验证/code/06_spatial_GSE232853/06_01_spatial_analysis.py | `ac05cbc2e51e124b902fa1b993de7308baf330ead7b027e7386666fb0c363a3e` |
-| section5_空间转录组验证/code/06_spatial_GSE232853/README_recovered.md | `99749ebfcd99e04a60fe55151f36f4b76d7262880d68f886eee98b84cf19f66e` |
+| section5_空间转录组验证/code/06_spatial_GSE232853/README_recovered.md | `36baf87e3c826e5c3a6660583d70f4ee45e8729b4dcc2838d77fb4888b480aa8` |
+| section5_空间转录组验证/code/06_spatial_GSE232853/README_recovered.zh-CN.md | `99749ebfcd99e04a60fe55151f36f4b76d7262880d68f886eee98b84cf19f66e` |
 | section5_空间转录组验证/code/config/__init__.py | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
 | section5_空间转录组验证/code/config/figure_layout.yaml | `eabb04612ed040a7e245f66a6c8f1ca40af3ad01e4fcc5399dd4e2de7f15ba85` |
 | section5_空间转录组验证/code/config/params.yaml | `55363cd2601cb83ef7ac6ef5508bd8b5ed37ef5a7d3f951cef17009f986ead33` |
@@ -139,7 +157,8 @@
 | section5_空间转录组验证/code/config/plot_style.py | `0e80f6289fdd7333dade68209abd5d15636c5b8ff13a25e55e3bef7bf38da85c` |
 | section5_空间转录组验证/code/config/retrofit.R | `35ba8b658566bbab148b3bff02fef56a1072b897057b6020d15b3b78f1557aad` |
 | section5_空间转录组验证/code/config/retrofit.py | `5fe9793c948795d1a295ce894cf979f6c8a91559d5caf58d2a5cd9db146573de` |
-| section6_MAFB预后评分模型/README.md | `8cf31354636ea91544643d7842ba1f4fa36f6af7b2bb82c60468a64184938d54` |
+| section6_MAFB预后评分模型/README.md | `929cb13d5844d549960115db06da3d690ea5404f164c05c3125e08e840cfcd12` |
+| section6_MAFB预后评分模型/README.zh-CN.md | `8cf31354636ea91544643d7842ba1f4fa36f6af7b2bb82c60468a64184938d54` |
 | section6_MAFB预后评分模型/code/07_bulk_prognosis/07_01_prognosis_main.R | `246a6c7c750d049a0a23ad94045c779e175599442d7e1ee25d3d0955c734e1cc` |
 | section6_MAFB预后评分模型/code/07_bulk_prognosis/07_02_lasso_cv_curves.R | `53f7702ed779ec0a355e38af362b6ca0cb081bb58a5cfc555997b843091da437` |
 | section6_MAFB预后评分模型/code/07_bulk_prognosis/07_03_immune_deconvolution.R | `65d8aa8cc31dad5bf431d7a118cd9e102026ac0324281d51b277dab95a960f9b` |
@@ -159,7 +178,8 @@
 | section6_MAFB预后评分模型/code/config/plot_style.py | `0e80f6289fdd7333dade68209abd5d15636c5b8ff13a25e55e3bef7bf38da85c` |
 | section6_MAFB预后评分模型/code/config/retrofit.R | `35ba8b658566bbab148b3bff02fef56a1072b897057b6020d15b3b78f1557aad` |
 | section6_MAFB预后评分模型/code/config/retrofit.py | `5fe9793c948795d1a295ce894cf979f6c8a91559d5caf58d2a5cd9db146573de` |
-| section6_MAFB预后评分模型/code/legacy/README.md | `6efe5e7524c7530ea159c316c76b08d62291e296f27247419114b1fa7ed112c8` |
+| section6_MAFB预后评分模型/code/legacy/README.md | `93775529ee8d7e9d39e57dfbdd469a64a43c18527d627a9251087e85661ae3f6` |
+| section6_MAFB预后评分模型/code/legacy/README.zh-CN.md | `6efe5e7524c7530ea159c316c76b08d62291e296f27247419114b1fa7ed112c8` |
 | section6_MAFB预后评分模型/code/legacy/yuhou.R | `a57b73cfe89f1e634558aa917877fcac87152a8f328566a48efe1077373742b0` |
 | section6_MAFB预后评分模型/code/legacy/yuhou2.R | `46e753969b25d26dea05030f6e3ef6cbd9c3d983a8472089f27fbbdaf4d74352` |
 | tools/04_01_gate_runner.py | `6fc72acb6fa5da8ed3d3acf27145ef9db9e5a761092e017af3db3fabeefd334f` |

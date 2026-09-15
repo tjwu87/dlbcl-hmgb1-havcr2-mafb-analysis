@@ -1,86 +1,96 @@
-# DLBCL HMGB1–HAVCR2–MAFB 多组学分析流程
+# DLBCL HMGB1–HAVCR2–MAFB multi-omics analysis pipeline
 
-弥漫大 B 细胞淋巴瘤（DLBCL）肿瘤微环境中 HMGB1、HAVCR2、MAFB 与 T 细胞功能关联的
-**多组学分析代码**，按论文的 Results 小节组织：
+**Multi-omics analysis code** for the association of HMGB1, HAVCR2 and MAFB with T-cell
+function in the diffuse large B-cell lymphoma (DLBCL) tumour microenvironment.
+Organised by the Results subsections of the paper:
 
-| 部分 | 内容 | 图件 |
+| Part | Content | Figures |
 |---|---|---|
-| `section1_恶性B细胞与髓系通讯` | 单细胞 QC/整合/注释、恶性判定、LIANA 细胞通讯 | Figure 1 (a–h)、S1 |
-| `section2_髓系轨迹与LA_TAM终末态` | 髓系再分型、PAGA/CellRank 轨迹、LA-TAM 打分 | Figure 2 (a–f)、S2、S8 |
-| `section3_HAVCR2-MAFB调控模块` | pySCENIC 调控子活性、RSS 受体优先级、伪时序相关 | Figure 3 (a–g)、S3、S9 |
-| `section4_MAFB计算机扰动` | CellOracle：GRN → 扰动模拟 → 命运概率 → 敏感性 | Figure 4 (a–h) |
-| `section5_空间转录组验证` | GeoMx：Q3 归一化 → 配对 ROI → DEA → GSEA → 空间共变 | Figure 5 (a–f)、S5 |
-| `section6_MAFB预后评分模型` | bulk 多队列 LASSO-Cox、KM/校准、CIBERSORT 免疫浸润 | Figure 6 (a–g)、S6 + 补充表 |
+| `section1_恶性B细胞与髓系通讯` | scRNA-seq QC/integration/annotation, malignancy calling, LIANA cell–cell communication | Figure 1 (a–h), S1 |
+| `section2_髓系轨迹与LA_TAM终末态` | Myeloid re-subtyping, PAGA/CellRank trajectory, LA-TAM scoring | Figure 2 (a–f), S2, S8 |
+| `section3_HAVCR2-MAFB调控模块` | pySCENIC regulon activity, RSS receptor prioritisation, pseudotime correlation | Figure 3 (a–g), S3, S9 |
+| `section4_MAFB计算机扰动` | CellOracle: GRN → perturbation simulation → fate probability → sensitivity | Figure 4 (a–h) |
+| `section5_空间转录组验证` | GeoMx: Q3 normalisation → paired ROIs → DEA → GSEA → spatial co-variation | Figure 5 (a–f), S5 |
+| `section6_MAFB预后评分模型` | Bulk multi-cohort LASSO-Cox, KM/calibration, CIBERSORT immune infiltration | Figure 6 (a–g), S6 + supplementary tables |
 
-> ⚠ **本版本只包含 Results 1–6 的代码。** 论文已删除
-> 「HAVCR2 结构与成药性」（原 Figure 7 / S7：GDSC IC50、Boltz-2、分子对接、MD），
-> 因此该部分代码不在本仓库内。
+> ⚠ **This version contains only the code for Results 1–6.** The paper removed
+> "HAVCR2 structure and druggability" (formerly Figure 7 / S7: GDSC IC50, Boltz-2,
+> molecular docking, MD), so that part is not included in this repository.
 >
-> ⚠ 本研究**全部为计算分析**，不含实验验证。文中"轴 / 驱动 / 靶向"等表述均为
-> **假说性**结论，请按原文的 "candidate / associated with" 理解。
+> ⚠ This study is **entirely computational**; no experimental validation is included.
+> Terms such as "axis / driver / targeting" are **hypothesis-generating** statements —
+> please read them as the original text's "candidate / associated with".
+
+> ℹ **Language note.** Documentation files are provided in English; the original
+> Chinese versions are kept alongside as `*.zh-CN.md` (e.g. `README.zh-CN.md`).
+> Source code and its comments remain in Chinese and have **not** been modified, so
+> that the translation cannot affect any numerical result.
 
 ---
 
-## 目录结构
+## Directory layout
 
 ```
 .
-├── run_all.py              # 一键复现入口（--stage 1..6 / --list / --check / --dry-run）
-├── config/                 # 路径解析（paths.py/paths.R）、绘图规范、渲染包装、参数
-├── section1..section6/     # 各 Results 小节：README.md + code/<模块>/
-│   └── code/config/        # 各 section 的 config 副本（便于单独运行该 section；
-│                           #   内容与根 config/ 一致）
-├── tools/                  # 图面复现流水线（Fig1/Fig3 一键重建、通用合成、面板提取件）
-├── docs/                   # panel ↔ 代码映射、版本审计、复现指南与状态报告
-├── 00_download/            # 公开数据下载脚本
-├── environment.yml         # conda 主环境（+ environment_celloracle/pyscenic.yml）
-├── install_R_packages.R    # R 依赖
-└── data/                   # 数据目录占位（不随仓库分发，见 data/README.md）
+├── run_all.py              # one-shot entry point (--stage 1..6 / --list / --check / --dry-run)
+├── config/                 # path resolution (paths.py/paths.R), plotting conventions, render wrapper, parameters
+├── section1..section6/     # one directory per Results subsection: README.md + code/<module>/
+│   └── code/config/        # per-section copy of config/ (so a section can be run on its own;
+│                           #   identical in content to the root config/)
+├── tools/                  # figure reproduction pipeline (Fig1/Fig3 one-click rebuild, generic composer, panel extractors)
+├── docs/                   # panel ↔ code mapping, version audit, reproduction guide and status report
+├── 00_download/            # public data download script
+├── environment.yml         # main conda environment (+ environment_celloracle/pyscenic.yml)
+├── install_R_packages.R    # R dependencies
+└── data/                   # data directory placeholder (not distributed with the repository, see data/README.md)
 ```
 
 ---
 
-## 快速开始
+## Quick start
 
 ```bash
-# 1) 环境
+# 1) Environment
 conda env create -f environment.yml && conda activate dlbcl
 Rscript install_R_packages.R
-#   CellOracle / pySCENIC 依赖较苛刻，建议单独建环境：
+#   CellOracle / pySCENIC have demanding dependencies; separate environments are recommended:
 #   conda env create -f environment_celloracle.yml
 #   conda env create -f environment_pyscenic.yml
 
-# 2) 数据（约 8 GB，不含在本仓库内）—— 见 data/README.md
+# 2) Data (~8 GB, not included in this repository) -- see data/README.md
 export DLBCL_DATA_ROOT=/path/to/data      # Windows: set DLBCL_DATA_ROOT=D:\bulk-download
 python 00_download/download_all.py --list
 python 00_download/download_all.py --all
 
-# 3) 一键复现
-python run_all.py                 # 全部（section1 → section6）
-python run_all.py --stage 4       # 只跑 CellOracle 扰动
-python run_all.py --list          # 列出各节脚本与就绪状态
-python run_all.py --check         # 只做输入数据预检
-python run_all.py --dry-run       # 只打印将要执行的命令
+# 3) One-shot reproduction
+python run_all.py                 # everything (section1 -> section6)
+python run_all.py --stage 4       # only the CellOracle perturbation
+python run_all.py --list          # list each section's scripts and readiness
+python run_all.py --check         # input-data pre-check only
+python run_all.py --dry-run       # print the commands that would be executed
 ```
 
-`DLBCL_DATA_ROOT` 是唯一需要配置的路径。所有脚本通过 `config/paths.py`
-（R 侧 `config/paths.R`）解析路径；代码中保留的历史绝对路径
-（`D:\bulk-download\…`、`/mnt/results/…`）由 `config.paths.translate()`
-在运行时映射到当前数据根，**无需手工改脚本**。
+`DLBCL_DATA_ROOT` is the only path you need to configure. Every script resolves paths
+through `config/paths.py` (on the R side, `config/paths.R`). The historical absolute
+paths kept in the code (`D:\bulk-download\…`, `/mnt/results/…`) are mapped at runtime
+to the current data root by `config.paths.translate()` — **no manual edits required**.
 
-### ⚠ 已知环境坑：旧版 h5ad 读不了
+### ⚠ Known environment pitfall: legacy h5ad files cannot be read
 
-随项目分发的 h5ad 由旧版 anndata 写出，`uns/log1p` 带 `encoding_type='null'`；
-anndata 0.11+ 取消了对应读方法，会直接报
-`IORegistryError: No read method registered for IOSpec(encoding_type='null', ...)`。
-执行 `python tools/fix_h5ad.py` 即可修复：它把 h5ad **复制**到 `results/data_fixed/`
-并删掉该键（**原始数据不动**），`config/paths.py` 会自动优先使用修补版。
+The h5ad files distributed with the project were written by an older anndata version;
+their `uns/log1p` carries `encoding_type='null'`, and anndata 0.11+ removed the
+corresponding read method, so it raises
+`IORegistryError: No read method registered for IOSpec(encoding_type='null', ...)`.
+Run `python tools/fix_h5ad.py` to repair this: it **copies** the h5ad into
+`results/data_fixed/` and drops that key (**the original data is not modified**), and
+`config/paths.py` will automatically prefer the repaired copy.
 
 ---
 
-## 从代码到图
+## From code to figures
 
-主图由 panel 级脚本产出后拼装。一键重建与合成：
+Main figures are produced by panel-level scripts and then assembled. One-click rebuild
+and composition:
 
 ```bash
 python tools/rebuild_fig1.py --fast                 # Figure 1
@@ -88,159 +98,193 @@ python tools/rebuild_fig3.py                        # Figure 3
 python tools/fig_compose_pdf.py results/assembled/figN.json    # N = 2,4,5,6
 ```
 
-| 图 | 主要绘图脚本 | 数据来源 |
+| Figure | Main plotting script | Data source |
 |---|---|---|
 | Fig 1 | `section1/code/10_figures/10_00_umap_cnv_myeloid_panels.py` + `tools/rebuild_fig1.py` | `section1/code/01_*`, `02_*` |
 | Fig 2 | `section2/code/03_trajectory_PAGA/03_01_paga_trajectory.py` | `section2/code/01_*` |
-| Fig 3 | `section3/code/04_pySCENIC/04_01_pyscenic_downstream_stats_figures.py` | pySCENIC 产物 CSV |
+| Fig 3 | `section3/code/04_pySCENIC/04_01_pyscenic_downstream_stats_figures.py` | pySCENIC output CSV |
 | Fig 4 | `section4/code/05_CellOracle/05_90_reproduce_figures_local.py` | `section4/code/step*` |
 | Fig 5 | `section5/code/06_spatial_GSE232853/06_01_spatial_analysis.py` | `data/GSE232853_v2/` |
-| Fig 6 | `section6/code/07_bulk_prognosis/07_01_prognosis_main.R`、`07_02_lasso_cv_curves.R` | `data/DLBCL_prognosis/` |
+| Fig 6 | `section6/code/07_bulk_prognosis/07_01_prognosis_main.R`, `07_02_lasso_cv_curves.R` | `data/DLBCL_prognosis/` |
 
-panel 与最终主图的对应关系见 `docs/figure_panel_map.md`、
-`docs/figure_code_map_final.md`；各 section 的复现状态见
-`docs/复现状态报告_20260913.md`。
+The mapping between panels and final figures is in `docs/figure_panel_map.md` and
+`docs/figure_code_map_final.md`; per-section reproduction status is in
+`docs/复现状态报告_20260913.md` (Chinese; an English version is in progress).
 
 ---
 
-## 出图规范
+## Figure conventions
 
-期刊版面 `\textwidth = 160 mm`、`\textheight = 216 mm`。
-旧脚本把画布开到 13×13 in 甚至 20×6.5 in，字号却用默认 10 pt，
-排版缩放后图上文字只剩 1–2 pt —— 这才是"图模糊"的真正原因，与像素数无关。
+Journal page metrics: `\textwidth = 160 mm`, `\textheight = 216 mm`.
+The older scripts opened canvases as large as 13×13 in or even 20×6.5 in while using
+the default 10 pt font, so after layout scaling the on-figure text was only 1–2 pt —
+**that**, not pixel count, is the real reason "the figures look blurry".
 
-现在统一在 `config/plot_style.py`（R 侧 `config/plot_style.R`）中约定：
+The conventions are now centralised in `config/plot_style.py`
+(on the R side, `config/plot_style.R`):
 
 ```python
 from config.plot_style import apply_paper_style, panel_figsize, save_figure
 
-apply_paper_style()                                    # 字号 8 pt 起，最小 6 pt
+apply_paper_style()                                    # font from 8 pt, minimum 6 pt
 fig, axes = plt.subplots(2, 3, figsize=panel_figsize(3, 2))
-save_figure(fig, FIG_DIR / "Fig1")                     # 输出 PDF(矢量) + PNG(600 dpi)
+save_figure(fig, FIG_DIR / "Fig1")                     # writes PDF (vector) + PNG (600 dpi)
 ```
 
-**矢量 PDF 优先**，放大任意倍数不失真。
+**Vector PDF is preferred** — it stays sharp at any magnification.
 
-对既有脚本的批量改造（不改原脚本，用改造层运行）：
+To retrofit existing scripts in bulk (without editing them, by running a wrapper):
 
 ```bash
-python tools/run_with_retrofit.py <脚本.py> <显示宽in> <字号pt>
-Rscript tools/run_with_retrofit.R <脚本.R> <显示宽in> <字号pt>
+python tools/run_with_retrofit.py <script.py> <display_width_in> <font_pt>
+Rscript tools/run_with_retrofit.R <script.R> <display_width_in> <font_pt>
 ```
 
-原理见 `config/retrofit.py` / `config/retrofit.R`：拦截 `plt.subplots` / `ggsave`
-的画布尺寸并同步放大字号，输出统一重定向到 `results/`，**不覆盖原始图片**。
+How it works is described in `config/retrofit.py` / `config/retrofit.R`: it intercepts
+the canvas size passed to `plt.subplots` / `ggsave` and scales the font size
+accordingly, redirecting all output to `results/` — **without overwriting the original
+images**.
 
 ---
 
-## 分析参数在哪里
+## Where the analysis parameters live
 
-分析代码与超参数**内嵌在管线脚本中**（非集中式配置），直接打开即可看到：
-QC/双联去噪（scrublet 阈值）、归一化与 HVG（`n_top_genes`）、整合（harmonypy）、
-聚类（leiden resolution）、PAGA/DPT 参数、pySCENIC 下游统计、CellOracle 逐步参数
-（step00–step09：GRN 过滤、扰动模拟、敏感性网格）、空间分析（Q3 校正）、
-LASSO/Cox（λ 网格、交叉验证折数）。
+Analysis code and hyper-parameters are **embedded in the pipeline scripts** (not held in
+a central config), so opening a script shows them directly:
+QC/doublet removal (scrublet threshold), normalisation and HVG (`n_top_genes`),
+integration (harmonypy), clustering (leiden resolution), PAGA/DPT parameters, pySCENIC
+downstream statistics, CellOracle per-step parameters (step00–step09: GRN filtering,
+perturbation simulation, sensitivity grid), spatial analysis (Q3 correction), and
+LASSO/Cox (λ grid, cross-validation folds).
 
-随机性：`seed = 42`（见 `config/params.yaml`）。审稿人关注的阈值
-（LIANA `magnitude_rank < 0.05`、GRN 边数、HVG 数量等）集中在 `config/params.yaml`，
-并附敏感性分析脚本（`step08*`）。
+Randomness: `seed = 42` (see `config/params.yaml`). The thresholds of interest to
+reviewers (LIANA `magnitude_rank < 0.05`, GRN edge counts, HVG counts, …) are
+collected in `config/params.yaml`, with accompanying sensitivity-analysis scripts
+(`step08*`).
 
 ---
 
-## 已知缺口（诚实说明）
+## Known gaps (stated honestly)
 
-> 本仓库**只含代码**。"下载仓库 → 直接出图"是**不成立**的：
-> 脚本读的大部分输入是**分析中间产物**（约 8 GB），不在任何公开下载源里。
-> 下面把缺口按性质列清（审计于 2026-09-14，逐条可追溯到文件路径）。
+> This repository contains **code only**. "Download the repository → figures come out"
+> does **not** hold: most inputs read by the scripts are **analysis intermediates**
+> (~8 GB) that exist in no public download source. The gaps are listed by nature below
+> (audited 2026-09-14; each item traces back to a file path).
 
-### A. 需要你自备的数据（不在仓库）
+### A. Data you must supply yourself (not in the repository)
 
-| 类别 | 内容 | 获取方式 |
+| Category | Content | How to obtain |
 |---|---|---|
-| 原始公开数据 | GSE182434 原始 count 矩阵、GSE10846/GSE87371/GSE11318/GSE181063 series matrix、GeoMx GSE232853 原始 RLT 矩阵、GDSC2 训练矩阵 | `python 00_download/download_all.py --list`（该脚本给出的队列清单**与脚本实际使用的不完全一致**，以各 section 代码中出现的 `GSE*` 为准） |
-| 分析中间产物 | `adata_processed.h5ad`、`adata_mac_*`、pySCENIC 产物、`celloracle0331/`、`GSE232853_v2/` 的 `expression_raw_filtered.csv`/`Q3_normalization_stats.csv`/`task2_*`、`DLBCL_prognosis/tables/*.csv`、`GSE10846_sur_model.Rdata` 等 | **需作者侧提供**（无法从 GEO 下载） |
-| 需注册获取 | CIBERSORT 的 `LM22.txt`、CellOracle 的 `base_GRN_human_promoter.csv`、`Macro_mono_cellmarker.xlsx` | 见 `data/README.md` |
+| Public raw data | GSE182434 raw count matrix; GSE10846/GSE87371/GSE11318/GSE181063 series matrices; GeoMx GSE232853 raw RLT matrix; GDSC2 training matrix | `python 00_download/download_all.py --list` (the cohort list printed by that script is **not fully consistent with what the code actually uses**; treat the `GSE*` identifiers appearing in each section's code as authoritative) |
+| Analysis intermediates | `adata_processed.h5ad`, `adata_mac_*`, pySCENIC outputs, `celloracle0331/`, `GSE232853_v2/`'s `expression_raw_filtered.csv`/`Q3_normalization_stats.csv`/`task2_*`, `DLBCL_prognosis/tables/*.csv`, `GSE10846_sur_model.Rdata`, etc. | **Must be provided by the authors** (cannot be downloaded from GEO) |
+| Require registration | CIBERSORT's `LM22.txt`; CellOracle's `base_GRN_human_promoter.csv`; `Macro_mono_cellmarker.xlsx` | see `data/README.md` |
 
-### B. 上游脚本未收录（原 4 处，**已全部补齐**）
+### B. Upstream scripts (originally 4 missing, **all now recovered**)
 
-1. ~~**pySCENIC 本体**~~ **已补齐**：原 `section3` 只有下游统计脚本
-   `04_01_pyscenic_downstream_stats_figures.py`。现已从 Biomni 分析记录中找回本体，
-   收录为 `section3/code/04_pySCENIC/` 下的三个文件：
-   `04_00a_setup_scenic_db.sh`（参考数据库下载 + 官方 CLI 三步命令）、
-   `04_00b_build_loom.py`（构建 327 细胞 × 9118 基因的 loom）、
-   `04_00c_pyscenic_run_and_export.py`（GRNBoost2 → RcisTarget NES≥3.0 → AUCell，
-   并导出下游所需 `data_*.csv`）。参数、数据库 URL、随机种子均为**原文照录**。
-   详见 `section3/code/04_pySCENIC/README_recovered.md`。
-2. ~~**LIANA 计算本体**~~ **已补齐**：`section1/code/02_cellcomm_LIANA/02_00_liana_run.py`
-   名为 "run" 但实际是**绘图脚本**（读三张结果表）。现补入两个本体脚本：
-   `02_00a_liana_rank_aggregate_14celltypes.py`（全细胞 14 类型）与
-   `02_00b_liana_rank_aggregate_13subtypes.py`（13 亚型，含 Malignant/Normal B 拆分规则）。
-   参数 `expr_prop=0.1 / min_cells=5 / n_perms=100 / seed=42` 为原文照录。
-   详见 `section1/code/02_cellcomm_LIANA/README_recovered.md`。
-3. ~~**空间转录组的上游处理**~~ **已补齐**：`section5` 的
-   `06_01_spatial_analysis.py` 读的 11 张 CSV 现已有产出者 ——
-   `section5/code/06_spatial_GSE232853/` 下补入 5 个脚本：
-   `06_00a`（下载 GEO 原始矩阵 + 样本元数据 + 严格 QC）、
-   `06_00b`（GeoMx Q3 归一化 + Harmony 批次校正 + PCA/UMAP）、
-   `06_00c`（两套 DEA 口径 + 配对 ROI 表 + LA_TAM 分组表）、
-   `06_00d`（GSEA prerank + ssGSEA）、
-   `06_00e`（MAFB 靶基因打分 + 空间共变主表）。
-   原始数据可从 GEO 公开下载（`GSE232853_Processed_data_CD20_CD68_final.csv.gz`）。
-   详见 `section5/code/06_spatial_GSE232853/README_recovered.md`。
-4. ~~**预后模型的若干中间表**~~ **已补齐**：`07_01_prognosis_main.R` 读的
-   `Cox_univariable_multivariable_results.csv`、`Calibration_data_1_3_5yr.csv`、
-   `Immune_infiltration_scores.csv`、`All_cohorts_risk_scores.csv`、
-   `GSE87371/GSE11318/GSE181063/TCGA_*_risk_scores.csv` 等，
-   其产出者是作者原始母脚本，现已收录到
-   `section6/code/legacy/yuhou.R`（25 基因版，**产出数据根里现有的那批表**）
-   与 `section6/code/legacy/yuhou2.R`（23 基因版平行支线，含论文未用的 NCICCR 队列）。
-   逐表 ↔ 行号对照、以及"可跳过的探索段"清单见 `section6/code/legacy/README.md`。
-   `07_02_lasso_cv_curves.R` 另产出 `LASSO_prognostic_formula.csv` 与 `GSE10846_risk_scores.csv`。
+1. ~~**pySCENIC core**~~ **recovered**: `section3` originally held only the downstream
+   statistics script `04_01_pyscenic_downstream_stats_figures.py`. The core was
+   recovered from the Biomni analysis records and is now included as three files under
+   `section3/code/04_pySCENIC/`:
+   `04_00a_setup_scenic_db.sh` (reference database download + the three official CLI
+   commands), `04_00b_build_loom.py` (builds the 327-cell × 9,118-gene loom), and
+   `04_00c_pyscenic_run_and_export.py` (GRNBoost2 → RcisTarget NES ≥ 3.0 → AUCell, plus
+   export of the `data_*.csv` consumed downstream). Parameters, database URLs and random
+   seeds are **transcribed verbatim** from the original records.
+   See `section3/code/04_pySCENIC/README_recovered.md`.
+2. ~~**LIANA core**~~ **recovered**: `section1/code/02_cellcomm_LIANA/02_00_liana_run.py`
+   is named "run" but is in fact a **plotting script** (it reads three result tables).
+   Two core scripts are now included:
+   `02_00a_liana_rank_aggregate_14celltypes.py` (all cells, 14 cell types) and
+   `02_00b_liana_rank_aggregate_13subtypes.py` (13 subtypes, including the
+   Malignant/Normal B split rule). Parameters
+   `expr_prop=0.1 / min_cells=5 / n_perms=100 / seed=42` are transcribed verbatim.
+   See `section1/code/02_cellcomm_LIANA/README_recovered.md`.
+   In addition, the **malignancy calling** step (inferCNVpy →
+   `cnv/malignancy_classification.csv`) and the **differential-communication volcano**
+   (`cellcomm/volcano_data_malignant_vs_normal_monomac.csv`) were recovered as
+   `code/01_scRNA_GSE182434/01_00_cnv_malignancy_classification.py` and
+   `code/02_cellcomm_LIANA/02_00c_volcano_malignant_vs_normal.py`.
+3. ~~**Spatial transcriptomics upstream**~~ **recovered**: the 11 CSVs read by
+   `06_01_spatial_analysis.py` in `section5` now have producers — five scripts were added
+   under `section5/code/06_spatial_GSE232853/`:
+   `06_00a` (download the GEO raw matrix + sample metadata + strict QC),
+   `06_00b` (GeoMx Q3 normalisation + Harmony batch correction + PCA/UMAP),
+   `06_00c` (two DEA variants + paired ROI table + LA_TAM grouping table),
+   `06_00d` (GSEA prerank + ssGSEA),
+   `06_00e` (MAFB target-gene scoring + spatial co-variation master table).
+   The raw data is publicly downloadable from GEO
+   (`GSE232853_Processed_data_CD20_CD68_final.csv.gz`).
+   See `section5/code/06_spatial_GSE232853/README_recovered.md`.
+4. ~~**Several prognostic intermediate tables**~~ **recovered**: the
+   `Cox_univariable_multivariable_results.csv`, `Calibration_data_1_3_5yr.csv`,
+   `Immune_infiltration_scores.csv`, `All_cohorts_risk_scores.csv`,
+   `GSE87371/GSE11318/GSE181063/TCGA_*_risk_scores.csv` and others read by
+   `07_01_prognosis_main.R` are produced by the authors' original master scripts, now
+   included as `section6/code/legacy/yuhou.R` (25-gene version, **which produces the
+   tables actually present in the data root**) and
+   `section6/code/legacy/yuhou2.R` (23-gene parallel branch, containing the NCICCR
+   cohort that the paper does not use).
+   The table ↔ line-number cross-reference and the list of "exploratory blocks that can
+   be skipped" are in `section6/code/legacy/README.md`.
+   `07_02_lasso_cv_curves.R` additionally produces `LASSO_prognostic_formula.csv` and
+   `GSE10846_risk_scores.csv`.
 
-### C. 代码层面的已知问题（已在归档副本中修好或记录）
+### C. Known code-level issues (fixed or documented in the archive copy)
 
-1. ✅ **`07_05_cibersort.R` 原缺路径迁移**（源项目里没有 `source(config/paths.R)`，
-   3 处裸绝对路径）→ 归档副本已补注入并把路径包进 `translate_path()`。
-2. ✅ **`config/paths.py` / `paths.R` 的 `LEGACY_MAP` 缺 2 个前缀**
-   （`D:/BadiduNetdiskDownload/R/Tcell`、`…/R/GSE10846survive`）→ 已补映射到
-   `data/external/Tcell` 与 `data/external/GSE10846survive`。
-3. ⚠️ **CIBERSORT 重算需要 `exp.txt`**：`07_05` 第 117 行
-   `cibersort(lm22f, "exp.txt", perm = 1000, QN = T)` 里的 `exp.txt` **脚本不生成、
-   仓库与数据里也没有**；它有 `if (!file.exists("GSE10846_ciber.Rdata"))` 短路——
-   即只有缓存了 `GSE10846_ciber.Rdata` 时才跑得通。要真正重算，需自备 `exp.txt`
-   （基因×样本的表达矩阵）放到 `data/external/Tcell/`。
-   ⚠️ 逆向地看：**CIBERSORT 的 `LM22.txt` 是从 R 包 `CIBERSORT` 的 `extdata/` 读的**
-   （`system.file("extdata","LM22.txt", package="CIBERSORT")`），不是从工作目录读，
-   所以需要先安装该 R 包（`install_R_packages.R` 无法自动安装，需手工获取）。
-4. ⚠️ **`00_download/download_all.py` 的队列清单与实际不符**：脚本里列的是
-   GSE32918 / GSE4475 / GSE23501，而 `section6` 代码实际用的是
-   GSE10846 / GSE87371 / GSE11318 / GSE181063 / TCGA-DLBC。**以代码为准**。
-   该脚本还错标 GEO 提供 `adata_processed.h5ad`（实为作者处理产物）。
-5. ⚠️ **`/tmp/…` 交互路径**：`section4` 的 `step*` 用 `/tmp/oracle_after_02B.pkl` 等
-   做步骤间暂存，在非 Unix 环境（Windows）会解析成 `	mp`。Linux/macOS 下正常。
-6. ⚠️ **`config/paths.py` 在源码项目里依赖 Windows junction**（`section*/code/config`
-   是指向根 `config/` 的目录联接）。归档已实体化并改为"向上自定位仓库根"，
-   便于跨平台与 git 管理。
+1. ✅ **`07_05_cibersort.R` originally lacked path migration** (no
+   `source(config/paths.R)` in the source project, and three bare absolute paths) →
+   the archive copy injects it and wraps the paths in `translate_path()`.
+2. ✅ **`config/paths.py` / `paths.R` `LEGACY_MAP` was missing 2 prefixes**
+   (`D:/BadiduNetdiskDownload/R/Tcell`, `…/R/GSE10846survive`) → now mapped to
+   `data/external/Tcell` and `data/external/GSE10846survive`.
+3. ⚠️ **Recomputing CIBERSORT requires `exp.txt`**: line 117 of `07_05` calls
+   `cibersort(lm22f, "exp.txt", perm = 1000, QN = T)`, but `exp.txt` is **not generated
+   by the script and is absent from both the repository and the data**; there is an
+   `if (!file.exists("GSE10846_ciber.Rdata"))` short-circuit, i.e. it only runs when
+   `GSE10846_ciber.Rdata` has been cached. To genuinely recompute, supply your own
+   `exp.txt` (a gene × sample expression matrix) under `data/external/Tcell/`.
+   ⚠ Conversely: **CIBERSORT's `LM22.txt` is read from the `extdata/` of the R package
+   `CIBERSORT`** (`system.file("extdata","LM22.txt", package="CIBERSORT")`), not from the
+   working directory — so that R package must be installed first
+   (`install_R_packages.R` cannot install it automatically; it must be obtained
+   manually).
+4. ⚠️ **`00_download/download_all.py` cohort list once disagreed with reality**: as
+   shipped, the script listed GSE32918 / GSE4475 / GSE23501, whereas `section6`'s code
+   actually uses GSE10846 / GSE87371 / GSE11318 / GSE181063 / TCGA-DLBC.
+   **The archive copy has been corrected** (the old identifiers survive only as an
+   explanatory comment), and the wrong claim that GEO provides `adata_processed.h5ad`
+   has been fixed.
+5. ⚠️ **`/tmp/…` intermediate paths**: `section4`'s `step*` scripts use
+   `/tmp/oracle_after_02B.pkl` and similar for inter-step staging, which resolves to a
+   literal `\tmp` path on non-Unix systems (Windows). This is fine on Linux/macOS.
+6. ⚠️ **In the source project, `config/paths.py` relied on a Windows junction**
+   (`section*/code/config` was a directory junction pointing at the root `config/`).
+   The archive has materialised these into real copies and switched `paths.py` to
+   "self-locate the repository root upwards", which is friendlier for cross-platform use
+   and for git.
 
-### D. 其他
+### D. Other
 
-- `docs/` 里的审计与映射文档记录了整理过程中的版本差异（例如某些图的面板源图
-  来自素材库的早期版本），仅供追溯，不影响流程运行。
-- Fig4 的面板源图由 matplotlib 直接输出矢量 PDF；若改用其它平台渲染同一份 SVG，
-  需注意半透明填充（fill-opacity）可能丢失。
+- The audit and mapping documents under `docs/` record version differences encountered
+  while tidying up (for example, some figures' panel sources come from an earlier
+  version in the authors' asset library). They are for traceability only and do not
+  affect the pipeline.
+- Fig 4's panel sources are vector PDFs written directly by matplotlib; if you render
+  the same SVG on another platform, note that semi-transparent fills (`fill-opacity`)
+  may be lost.
 
 ---
 
-## 数据可用性
+## Data availability
 
-原始数据全部来自公开数据库（GEO / GDC / GDSC / MSigDB），
-清单见 `python 00_download/download_all.py --list`。
-本仓库**不包含**任何原始数据或大体积中间产物。
+All raw data come from public databases (GEO / GDC / GDSC / MSigDB); the list is
+available via `python 00_download/download_all.py --list`.
+This repository **contains** neither raw data nor large intermediate products.
 
 ---
 
-## 引用与许可
+## Citation and licence
 
-- 代码许可：**MIT**（见 `LICENSE`）
-- 引用信息：见 `CITATION.cff`
-- 若使用本代码，请引用原论文（信息待补充）。
+- Code licence: **MIT** (see `LICENSE`)
+- Citation metadata: see `CITATION.cff`
+- If you use this code, please cite the original paper (details to be added).

@@ -1,40 +1,40 @@
-# Malignant B cells and myeloid communication
+# 恶性B细胞与髓系通讯
 
-> **Paper mapping**: Results 1 — malignant B-cell / myeloid-cell communication  
-> **Figures**: Figure 1 (a–h), Figure S1
+> **论文对应**：Results 1 — 恶性 B 细胞与髓系细胞通讯  
+> **图件**：Figure 1（a–h）、Figure S1
 
-## What this part does
+## 分析内容
 
-GSE182434 scRNA-seq: QC → Harmony integration → clustering → CellTypist/CellVote annotation → inferCNVpy malignancy calling → LIANA cell–cell communication → volcano plot
+GSE182434 scRNA-seq：QC → Harmony 整合 → 聚类 → CellTypist/CellVote 注释 → inferCNVpy 恶性判定 → LIANA 细胞通讯 → 火山图
 
-## Layout
+## 目录
 
 ```
 section1_恶性B细胞与髓系通讯/
-├── code/            analysis scripts (see below)
-├── data/            intermediates specific to this part (for comparison / reuse)
-├── figures/         paper figures and panels
+├── code/            分析脚本（见下）
+├── data/            本部分专有的中间产物（可比对/复用）
+├── figures/         论文图件与面板
 └── README.md
 ```
 
-## Scripts
+## 脚本清单
 
-| Script | Notes |
+| 脚本 | 说明 |
 | --- | --- |
-| `code/01_scRNA_GSE182434/01_01_qc_integration.py` |  |
-| `code/01_scRNA_GSE182434/01_03_annotation_concordance.py` |  |
-| `code/01_scRNA_GSE182434/01_04_supplementary_panels.py` |  |
-| `code/01_scRNA_GSE182434/01_00_cnv_malignancy_classification.py` | Upstream core (recovered): inferCNVpy malignancy vs normal B-cell calling (Tonsil as reference baseline); produces `cnv/malignancy_classification.csv` |
-| `code/02_cellcomm_LIANA/02_00a_liana_rank_aggregate_14celltypes.py` | Upstream core (recovered): LIANA `rank_aggregate` over all cells, 14 cell types; produces `liana_results_full/significant.csv` and `interaction_weight_matrix.csv` |
-| `code/02_cellcomm_LIANA/02_00b_liana_rank_aggregate_13subtypes.py` | Upstream core (recovered): `rank_aggregate` over 13 subtypes; produces `liana_results_13subtypes_full/significant.csv` (used for the main figures) |
-| `code/02_cellcomm_LIANA/02_00c_volcano_malignant_vs_normal.py` | Upstream core (recovered): differential communication malignant vs normal B → macrophages (LIANA + volcano data); produces `cellcomm/volcano_data_malignant_vs_normal_monomac.csv` — see `code/02_cellcomm_LIANA/README_recovered.md` |
-| `code/02_cellcomm_LIANA/02_00_liana_run.py` |  |
-| `code/02_cellcomm_LIANA/02_01_fig1de_aggregate_circle_heatmap.py` |  |
-| `code/02_cellcomm_LIANA/02_02_liana_figures_13subtypes_volcano.py` |  |
-| `code/02_cellcomm_LIANA/02_03_liana_supplementary.py` |  |
-| `code/10_figures/10_00_umap_cnv_myeloid_panels.py` |  |
+| `code/01_scRNA_GSE182434/01_01_qc_integration.py` | |
+| `code/01_scRNA_GSE182434/01_03_annotation_concordance.py` | |
+| `code/01_scRNA_GSE182434/01_04_supplementary_panels.py` | |
+| `code/02_cellcomm_LIANA/02_00_liana_run.py` | |
+| `code/02_cellcomm_LIANA/02_01_fig1de_aggregate_circle_heatmap.py` | |
+| `code/02_cellcomm_LIANA/02_02_liana_figures_13subtypes_volcano.py` | |
+| `code/02_cellcomm_LIANA/02_03_liana_supplementary.py` | |
+| `code/01_scRNA_GSE182434/01_00_cnv_malignancy_classification.py` | 上游本体（找回件）：inferCNVpy 恶性/正常 B 细胞判定（Tonsil 为参考基线），产出 `cnv/malignancy_classification.csv` |
+| `code/02_cellcomm_LIANA/02_00c_volcano_malignant_vs_normal.py` | 上游本体（找回件）：恶性 vs 正常 B → 巨噬细胞的差异通讯（LIANA + 火山图数据），产出 `cellcomm/volcano_data_malignant_vs_normal_monomac.csv` |
+| `code/02_cellcomm_LIANA/02_00a_liana_rank_aggregate_14celltypes.py` | 上游本体（找回件）：LIANA 全细胞 14 类型 `rank_aggregate`，产出 `liana_results_full/significant.csv` 与 `interaction_weight_matrix.csv` |
+| `code/02_cellcomm_LIANA/02_00b_liana_rank_aggregate_13subtypes.py` | 上游本体（找回件）：13 亚型 `rank_aggregate`，产出 `liana_results_13subtypes_full/significant.csv`（论文主图所用）—— 见 `code/02_cellcomm_LIANA/README_recovered.md` |
+| `code/10_figures/10_00_umap_cnv_myeloid_panels.py` | |
 
-## Input data (shared, under `data/`)
+## 输入数据（公用，位于 `data/`）
 
 - `GSE182434/adata_processed.h5ad`
 - `GSE182434/cnv/adata_cnv.h5ad`
@@ -43,24 +43,24 @@ section1_恶性B细胞与髓系通讯/
 - `GSE182434/cellcomm/liana_results_13subtypes_full.csv`
 - `GSE182434/cellcomm/volcano_data_malignant_vs_normal_monomac.csv`
 
-## How to run
+## 复现命令
 
 ```bash
-# No data root needed: config/paths.py resolves to data/ by default
+# 数据根无需设置：config/paths.py 默认解析到 data/
 cd DLBCL_HMGB1_HAVCR2_MAFB
-# whole pipeline
+# 全流程
 python run_all.py
-# this part only
+# 只跑本部分
 python run_all.py --stage 1
 ```
 
-## Environment status
+## 环境状态
 
-- Required: scanpy, anndata, harmonypy, celltypist, GEOparse, infercnvpy, liana, decoupler
-- Already available in the local `scRNA` environment: scanpy, anndata, harmonypy
-- Still missing: celltypist, GEOparse, infercnvpy, liana, decoupler
+- 需要：scanpy, anndata, harmonypy, celltypist, GEOparse, infercnvpy, liana, decoupler
+- 本机 `scRNA` 环境已具备：scanpy, anndata, harmonypy
+- 尚缺：celltypist, GEOparse, infercnvpy, liana, decoupler
 
-## Output figures
+## 产出图件
 
 - `figures/论文成图/Fig1.png`
 - `figures/论文成图/FigS1.png`

@@ -1,41 +1,47 @@
-# 数据目录（占位，不随仓库分发）
+# Data directory (placeholder — not distributed with the repository)
 
-本仓库**只包含代码**。原始数据全部来自公开数据库（GEO / GDC / GDSC / MSigDB），
-体积约 8 GB，请自行下载后放到这里，或用环境变量指向已有位置：
+This repository **contains code only**. All raw data come from public databases
+(GEO / GDC / GDSC / MSigDB) and total roughly 8 GB. Download it yourself and place it
+here, or point an environment variable at a location you already have:
 
 ```bash
-# 方式一：放到本目录（推荐）
-#   把各数据集解压/下载到 data/ 下，目录名与 run_all.py --check 的提示一致：
-#   data/GSE182434/       单细胞发现队列
-#   data/GSE232853_v2/    GeoMx 空间转录组（重处理版）
-#   data/celloracle0331/  CellOracle 扰动产物
-#   data/DLBCL_prognosis/ bulk 预后建模
-#   data/GDSC2/           药物敏感性
+# Option 1: put it here (recommended)
+#   Unpack/download each dataset under data/, using directory names that match what
+#   `run_all.py --check` reports:
+#   data/GSE182434/       single-cell discovery cohort
+#   data/GSE232853_v2/    GeoMx spatial transcriptomics (reprocessed version)
+#   data/celloracle0331/  CellOracle perturbation outputs
+#   data/DLBCL_prognosis/ bulk prognostic modelling
+#   data/GDSC2/           drug sensitivity
 #   data/spatial_analysis/
 
-# 方式二：指向任意已有目录
+# Option 2: point at any existing directory
 export DLBCL_DATA_ROOT=/path/to/data      # Linux / macOS
 set    DLBCL_DATA_ROOT=D:\bulk-download   # Windows
 
-# 查看需要哪些数据
+# See which datasets are needed
 python 00_download/download_all.py --list
 ```
 
-`config/paths.py` 的解析顺序：`DLBCL_DATA_ROOT` → `<仓库>/data/` → 仓库内 `data/`。
+`config/paths.py` resolves in this order: `DLBCL_DATA_ROOT` → `<repo>/data/` →
+`data/` inside the repository.
 
-需注册后手动获取的参考文件（不便随包分发）：
+Reference files that require registration and must be obtained manually (impractical to
+distribute with the package):
 
-| 文件 | 放到 | 说明 |
+| File | Place under | Notes |
 |---|---|---|
-| `GSE10846_series_matrix.txt.gz` | `data/external/GSE10846survive/` | GEO 公开可下；`section6` 的 R 脚本按此路径查找 |
-| `GSE10846_ciber.Rdata` | `data/external/Tcell/` | CIBERSORT 结果的**缓存**（有它就跑得通；删掉则需重算） |
-| `immu_check_point.txt` | `data/external/Tcell/` | 免疫检查点基因列表（脚本按工作目录读） |
-| `DLBCL_MRGs_Cluster_PD1.csv` | `data/external/Tcell/` | TIDE 输入表 |
-| `exp.txt` | `data/external/Tcell/` | **仅重算 CIBERSORT 时必需**（基因×样本表达矩阵；脚本不生成） |
-| `CIBERSORT` R 包 | R 库 | 提供 `cibersort()` 与内置 `extdata/LM22.txt`，需从 <https://ciberx.stanford.edu/> 注册获取（仅限学术使用） |
-| `base_GRN_human_promoter.csv` | `data/GSE182434/celloracle_rerun_20260324_035651/` | CellOracle 先验 GRN，见 <https://github.com/morris-lab/CellOracle> |
-| `Macro_mono_cellmarker.xlsx` | `data/` | 髓系 marker 表（Fig1a/1c 与髓系面板用） |
+| `GSE10846_series_matrix.txt.gz` | `data/external/GSE10846survive/` | Publicly downloadable from GEO; the R scripts in `section6` look for it at this path |
+| `GSE10846_ciber.Rdata` | `data/external/Tcell/` | **Cache** of the CIBERSORT result (with it the script runs; delete it and a recompute is required) |
+| `immu_check_point.txt` | `data/external/Tcell/` | Immune-checkpoint gene list (the script reads it from the working directory) |
+| `DLBCL_MRGs_Cluster_PD1.csv` | `data/external/Tcell/` | TIDE input table |
+| `exp.txt` | `data/external/Tcell/` | **Required only to recompute CIBERSORT** (gene × sample expression matrix; the script does not generate it) |
+| the `CIBERSORT` R package | R library | Provides `cibersort()` and the bundled `extdata/LM22.txt`; register at <https://ciberx.stanford.edu/> (academic use only) |
+| `base_GRN_human_promoter.csv` | `data/GSE182434/celloracle_rerun_20260324_035651/` | CellOracle prior GRN, see <https://github.com/morris-lab/CellOracle> |
+| `Macro_mono_cellmarker.xlsx` | `data/` | Myeloid marker table (used by Fig1a/1c and the myeloid panels) |
 
-> `data/external/` 这两个子目录名对应 `config/paths.py` / `paths.R` 中 LEGACY_MAP
-> 的 `external/Tcell`、`external/GSE10846survive` 两项——脚本里的历史绝对路径
-> （`D:/BadiduNetdiskDownload/R/…`）会在运行时被翻译到这里，无需改代码。
+> The two `data/external/` subdirectory names correspond to the `external/Tcell` and
+> `external/GSE10846survive` entries in `LEGACY_MAP` in
+> `config/paths.py` / `paths.R` — the historical absolute paths in the scripts
+> (`D:/BadiduNetdiskDownload/R/…`) are translated here at runtime, so no code changes
+> are needed.

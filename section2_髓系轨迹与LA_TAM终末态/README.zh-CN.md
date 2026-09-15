@@ -1,59 +1,59 @@
-# Myeloid trajectory and the LA-TAM terminal state
+# 髓系轨迹与LA_TAM终末态
 
-> **Paper mapping**: Results 2 — myeloid cell trajectory and the LA-TAM terminal state  
-> **Figures**: Figure 2 (a–f), Figure S2, part of Figure S8
+> **论文对应**：Results 2 — 髓系细胞轨迹与 LA-TAM 终末态  
+> **图件**：Figure 2（a–f）、Figure S2、Figure S8 部分
 
-## What this part does
+## 分析内容
 
-Myeloid re-subtyping → PAGA trajectory → CellRank fate drivers → LA-TAM scoring and paired comparison
+髓系再分型 → PAGA 轨迹 → CellRank 命运驱动 → LA-TAM 打分与配对比较
 
-## Layout
+## 目录
 
 ```
 section2_髓系轨迹与LA_TAM终末态/
-├── code/            analysis scripts (see below)
-├── data/            intermediates specific to this part (for comparison / reuse)
-├── figures/         paper figures and panels
+├── code/            分析脚本（见下）
+├── data/            本部分专有的中间产物（可比对/复用）
+├── figures/         论文图件与面板
 └── README.md
 ```
 
-## Scripts
+## 脚本清单
 
-| Script | Notes |
+| 脚本 | 说明 |
 | --- | --- |
-| `code/01_scRNA_GSE182434/01_02_myeloid_subtyping_and_paga_trajectory.py` |  |
-| `code/01_scRNA_GSE182434/01_05_fig1b_marker_dotplot.py` |  |
-| `code/01_scRNA_GSE182434/01_06_mono_mac_5subtypes.py` |  |
-| `code/03_trajectory_PAGA/03_01_paga_trajectory.py` |  |
-| `code/03_trajectory_PAGA/03_02_latam_score_comparison.py` |  |
-| `code/10_figures/FigS2/10_10_FigS2_supplementary.py` |  |
-| `code/10_figures/FigS8/10_11_FigS8_supplementary.py` |  |
+| `code/01_scRNA_GSE182434/01_02_myeloid_subtyping_and_paga_trajectory.py` | |
+| `code/01_scRNA_GSE182434/01_05_fig1b_marker_dotplot.py` | |
+| `code/01_scRNA_GSE182434/01_06_mono_mac_5subtypes.py` | |
+| `code/03_trajectory_PAGA/03_01_paga_trajectory.py` | |
+| `code/03_trajectory_PAGA/03_02_latam_score_comparison.py` | |
+| `code/10_figures/FigS2/10_10_FigS2_supplementary.py` | |
+| `code/10_figures/FigS8/10_11_FigS8_supplementary.py` | |
 
-## Input data (shared, under `data/`)
+## 输入数据（公用，位于 `data/`）
 
 - `GSE182434/adata_mac_subtyped.h5ad`
 - `GSE182434/trajectory/adata_mac_annotated_patched.h5ad`
 - `GSE182434/trajectory/cellrank_LA_TAM_fate_drivers_receptors.csv`
 - `GSE182434/trajectory/receptor_pseudotime_cell_level.csv`
 
-## How to run
+## 复现命令
 
 ```bash
-# No data root needed: config/paths.py resolves to data/ by default
+# 数据根无需设置：config/paths.py 默认解析到 data/
 cd DLBCL_HMGB1_HAVCR2_MAFB
-# whole pipeline
+# 全流程
 python run_all.py
-# this part only
+# 只跑本部分
 python run_all.py --stage 2
 ```
 
-## Environment status
+## 环境状态
 
-- Required: scanpy, anndata, cellrank, palantir
-- Already available in the local `scRNA` environment: scanpy, anndata
-- Still missing: cellrank, palantir
+- 需要：scanpy, anndata, cellrank, palantir
+- 本机 `scRNA` 环境已具备：scanpy, anndata
+- 尚缺：cellrank, palantir
 
-## Output figures
+## 产出图件
 
 - `figures/论文成图/Fig2.png`
 - `figures/论文成图/FigS2.png`
